@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" width="600" height="600">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1e1b4b"/>
+      <stop offset="50%" style="stop-color:#312e81"/>
+      <stop offset="100%" style="stop-color:#4c1d95"/>
+    </linearGradient>
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#a78bfa"/>
+      <stop offset="100%" style="stop-color:#818cf8"/>
+    </linearGradient>
+  </defs>
+  <rect width="600" height="600" fill="url(#bg)" rx="16"/>
+  <text x="300" y="280" text-anchor="middle" font-family="Arial, sans-serif" font-size="180" font-weight="bold" fill="url(#textGrad)">AK</text>
+  <text x="300" y="380" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="500" fill="#c4b5fd" letter-spacing="8">FULL-STACK DEV</text>
+  <rect x="200" y="400" width="200" height="2" fill="#6366f1" opacity="0.5" rx="1"/>
+  <!-- Code brackets decoration -->
+  <text x="80" y="150" font-family="monospace" font-size="40" fill="#6366f1" opacity="0.15">{</text>
+  <text x="500" y="150" font-family="monospace" font-size="40" fill="#6366f1" opacity="0.15">}</text>
+  <text x="60" y="500" font-family="monospace" font-size="40" fill="#6366f1" opacity="0.15">&lt;/&gt;</text>
+  <text x="480" y="500" font-family="monospace" font-size="40" fill="#6366f1" opacity="0.15">[ ]</text>
+</svg>

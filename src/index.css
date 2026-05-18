@@ -1,0 +1,240 @@
+/* ===== 3D Background Styles ===== */
+/* Minimal CSS for the React 3D canvas that sits behind Portfolio-HTML */
+
+/* Container for the 3D scene - fills the hero section */
+.home-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+}
+
+/* Canvas touch behavior */
+.home-canvas {
+  touch-action: pan-y;
+  display: block;
+}
+
+/* ===== 3D Loader Styles ===== */
+.loader-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 200px;
+}
+
+.loader-ring-outer {
+  position: relative;
+  width: 7rem;
+  height: 7rem;
+}
+
+.loader-ring-1 {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 3px solid transparent;
+  border-top-color: #06b6d4;
+  border-right-color: #0077be;
+  animation: loader-spin 1.5s linear infinite;
+}
+
+.loader-ring-2 {
+  position: absolute;
+  inset: 0.75rem;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-bottom-color: #00bfff;
+  border-left-color: #4fd1c5;
+  animation: loader-spin 2s linear infinite reverse;
+}
+
+.loader-ocean-circle {
+  position: absolute;
+  inset: 1.5rem;
+  border-radius: 50%;
+  overflow: hidden;
+  background: linear-gradient(180deg, #0ea5e9 0%, #0077be 40%, #004466 80%, #002244 100%);
+  box-shadow:
+    0 0 30px rgba(6, 182, 212, 0.5),
+    inset 0 -10px 20px rgba(0, 0, 0, 0.3),
+    inset 0 10px 20px rgba(255, 255, 255, 0.1);
+}
+
+.loader-wave-surface {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 33%;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent);
+  animation: loader-waveTop 2s ease-in-out infinite;
+}
+
+.loader-bubble {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.65);
+  border-radius: 50%;
+  animation: loader-bubbleRise 2s ease-in-out infinite;
+}
+
+.loader-bubble--1 {
+  width: 0.5rem;
+  height: 0.5rem;
+  left: 30%;
+}
+
+.loader-bubble--2 {
+  width: 0.375rem;
+  height: 0.375rem;
+  left: 60%;
+  animation-duration: 2.5s;
+  animation-delay: 0.5s;
+}
+
+.loader-bubble--3 {
+  width: 0.25rem;
+  height: 0.25rem;
+  left: 45%;
+  animation-duration: 1.8s;
+  animation-delay: 1s;
+}
+
+.loader-fish {
+  position: absolute;
+  font-size: 0.875rem;
+  animation: loader-fishSwim 3s ease-in-out infinite;
+}
+
+.loader-anchor {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  animation: loader-float 2s ease-in-out infinite;
+}
+
+.loader-sparkle {
+  position: absolute;
+  border-radius: 50%;
+  animation: loader-sparkle 1.5s ease-in-out infinite;
+}
+
+.loader-sparkle--1 {
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  background: #67e8f9;
+}
+
+.loader-sparkle--2 {
+  bottom: 1rem;
+  left: 0.5rem;
+  width: 0.375rem;
+  height: 0.375rem;
+  background: #93c5fd;
+  animation-delay: 0.5s;
+  animation-duration: 2s;
+}
+
+.loader-text-area {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.loader-text {
+  color: #67e8f9;
+  font-weight: 600;
+  font-size: 1.125rem;
+  letter-spacing: 0.1em;
+  text-shadow: 0 0 20px rgba(6, 182, 212, 0.6);
+  animation: loader-textPulse 2s ease-in-out infinite;
+}
+
+.loader-dots {
+  display: flex;
+  justify-content: center;
+  gap: 0.375rem;
+  margin-top: 0.5rem;
+}
+
+.loader-dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #06b6d4, #0077be);
+  animation: loader-dotBounce 1.2s ease-in-out infinite;
+  box-shadow: 0 0 10px rgba(6, 182, 212, 0.5);
+}
+
+.loader-wave-deco {
+  margin-top: 1rem;
+  width: 8rem;
+  height: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.loader-wave-deco svg {
+  position: absolute;
+  inset: 0;
+}
+
+/* Loader Keyframes */
+@keyframes loader-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes loader-waveTop {
+  0%, 100% { transform: translateY(0) scaleY(1); }
+  50% { transform: translateY(2px) scaleY(0.8); }
+}
+
+@keyframes loader-bubbleRise {
+  0% { bottom: 10%; opacity: 0; transform: scale(0.5); }
+  20% { opacity: 1; }
+  80% { opacity: 0.8; }
+  100% { bottom: 90%; opacity: 0; transform: scale(1); }
+}
+
+@keyframes loader-fishSwim {
+  0% { left: -20%; top: 50%; transform: scaleX(1); }
+  45% { transform: scaleX(1); }
+  50% { left: 80%; transform: scaleX(-1); }
+  95% { transform: scaleX(-1); }
+  100% { left: -20%; top: 50%; transform: scaleX(1); }
+}
+
+@keyframes loader-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  25% { transform: translateY(-3px) rotate(-5deg); }
+  75% { transform: translateY(3px) rotate(5deg); }
+}
+
+@keyframes loader-sparkle {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+@keyframes loader-textPulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes loader-dotBounce {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.1); }
+}
+
+@keyframes loader-wavePath {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-30px); }
+}

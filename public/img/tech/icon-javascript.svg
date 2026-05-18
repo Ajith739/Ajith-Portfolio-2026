@@ -1,0 +1,4 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="currentColor">
+  <path d="M8 5h24l-2.2 25L20 34l-9.8-4L8 5zm4.4 3l1.7 20.3L20 30.6l5.9-2.3L27.6 8H12.4z"/>
+  <text x="20" y="23" font-size="10" font-weight="bold" text-anchor="middle" font-family="sans-serif" fill="currentColor">JS</text>
+</svg>
