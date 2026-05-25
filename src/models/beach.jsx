@@ -104,28 +104,20 @@ export function Beach(props) {
         <group rotation={[Math.PI / 2, 0, 0]}>
           <group position={[-10.774, -0.187, -13.178]} rotation={[-0.219, 0.185, 0]} scale={0.212}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_11.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_12.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[-12.772, -0.365, -13.975]} rotation={[-0.907, 1.52, 0.866]}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_14.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_15.geometry}
               material={materials.MetallicPalette}
             />
@@ -133,62 +125,42 @@ export function Beach(props) {
           <group ref={bigBoatRef}>
             <group position={[16.121, 2.099, -5.805]} rotation={[-0.009, 0.226, 0.005]} scale={3.735}>
               <mesh
-                castShadow
-                receiveShadow
                 geometry={nodes.Object_20.geometry}
                 material={materials.ShipNamePalette}
               />
               <mesh
-                castShadow
-                receiveShadow
                 geometry={nodes.Object_21.geometry}
                 material={flagMaterial}
               />
               <mesh
-                castShadow
-                receiveShadow
                 geometry={nodes.Object_22.geometry}
                 material={materials.Base_Palette}
               />
               <mesh
-                castShadow
-                receiveShadow
                 geometry={nodes.Object_23.geometry}
                 material={materials.Base_Palette}
               />
               <mesh
-                castShadow
-                receiveShadow
                 geometry={nodes.Object_24.geometry}
                 material={materials.Base_Palette}
               />
               <mesh
-                castShadow
-                receiveShadow
                 geometry={nodes.Object_25.geometry}
                 material={materials.Base_Palette}
               />
               <mesh
-                castShadow
-                receiveShadow
                 geometry={nodes.Object_26.geometry}
                 material={materials.MetallicPalette}
               />
               <mesh
-                castShadow
-                receiveShadow
                 geometry={nodes.Object_27.geometry}
                 material={materials.MetallicPalette}
               />
               <mesh
-                castShadow
-                receiveShadow
                 geometry={nodes.Object_28.geometry}
                 material={materials.MetallicPalette}
               />
               <mesh
-                castShadow
-                receiveShadow
                 geometry={nodes.Object_29.geometry}
                 material={materials.EmissivePalette}
               />
@@ -196,84 +168,60 @@ export function Beach(props) {
           </group>
           <group position={[0, 0.611, 0]} rotation={[0, 0, 0.05]}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_57.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_58.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[-13.368, 11.736, 8.037]} rotation={[Math.PI, -0.308, -3.091]}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_66.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_67.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[-12.196, 3.474, 9.197]} rotation={[0, -0.456, 0.143]}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_71.geometry}
               material={materials.MetallicPalette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_72.geometry}
               material={materials.Base_Palette}
             />
           </group>
           <group position={[-10.52, 3.663, 9.265]} rotation={[-0.282, 0.304, -0.043]}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_76.geometry}
               material={materials.MetallicPalette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_77.geometry}
               material={materials.Base_Palette}
             />
           </group>
           <group position={[-2.467, 3.973, -3.472]} rotation={[-0.167, 0.109, 0.1]} scale={0.407}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_97.geometry}
               material={materials.MetallicPalette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_98.geometry}
               material={materials.Base_Palette}
             />
           </group>
           <group position={[-1.552, 11.356, -0.886]} rotation={[-3.01, 0.26, 3.108]} scale={0.35}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_100.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_101.geometry}
               material={materials.MetallicPalette}
             />
@@ -283,28 +231,20 @@ export function Beach(props) {
             rotation={[-0.004, -0.263, 3.141]}
             scale={0.35}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_103.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_104.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[-1.51, 12.197, -0.959]} rotation={[-3.055, 0.262, 3.119]} scale={0.35}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_106.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_107.geometry}
               material={materials.MetallicPalette}
             />
@@ -314,42 +254,30 @@ export function Beach(props) {
             rotation={[-0.166, -0.608, -0.095]}
             scale={0.35}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_109.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_110.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[11.945, 3.171, 14.097]} rotation={[0.009, -0.614, 0.005]} scale={0.35}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_112.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_113.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[11.951, 3.534, 14.075]} rotation={[0, -0.614, 0]} scale={0.35}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_115.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_116.geometry}
               material={materials.MetallicPalette}
             />
@@ -359,28 +287,20 @@ export function Beach(props) {
             rotation={[-Math.PI, 0.333, -Math.PI]}
             scale={0.296}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_118.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_119.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[-1.488, 13.144, -0.902]} rotation={[-2.968, 0.043, 3.134]} scale={0.35}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_121.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_122.geometry}
               material={materials.MetallicPalette}
             />
@@ -390,14 +310,10 @@ export function Beach(props) {
             rotation={[-Math.PI, 0.075, -Math.PI]}
             scale={0.309}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_124.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_125.geometry}
               material={materials.MetallicPalette}
             />
@@ -407,14 +323,10 @@ export function Beach(props) {
             rotation={[-0.049, -0.148, 3.134]}
             scale={0.329}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_127.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_128.geometry}
               material={materials.MetallicPalette}
             />
@@ -424,28 +336,20 @@ export function Beach(props) {
             rotation={[0.163, -0.623, -3.046]}
             scale={0.35}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_130.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_131.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[-1.205, 15.62, -1.001]} rotation={[-2.961, 0.452, 3.094]} scale={0.35}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_133.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_134.geometry}
               material={materials.MetallicPalette}
             />
@@ -455,14 +359,10 @@ export function Beach(props) {
             rotation={[-Math.PI, 0.349, -Math.PI]}
             scale={0.35}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_136.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_137.geometry}
               material={materials.MetallicPalette}
             />
@@ -472,42 +372,30 @@ export function Beach(props) {
             rotation={[-0.098, -0.161, 3.135]}
             scale={0.34}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_139.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_140.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[-1.188, 15.185, -1.085]} rotation={[3.047, 0.292, -3.114]} scale={0.35}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_142.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_143.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[-1.15, 16.033, -1.122]} rotation={[2.951, 0.612, -3.043]} scale={0.35}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_145.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_146.geometry}
               material={materials.MetallicPalette}
             />
@@ -517,14 +405,10 @@ export function Beach(props) {
             rotation={[-3.114, 1.212, 3.117]}
             scale={0.316}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_148.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_149.geometry}
               material={materials.MetallicPalette}
             />
@@ -534,28 +418,20 @@ export function Beach(props) {
             rotation={[-Math.PI, 1.19, Math.PI]}
             scale={0.35}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_151.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_152.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[-0.52, 17.563, -1.359]} rotation={[0.615, 1.434, -0.635]} scale={0.329}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_154.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_155.geometry}
               material={materials.MetallicPalette}
             />
@@ -565,42 +441,30 @@ export function Beach(props) {
             rotation={[-Math.PI, 1.275, Math.PI]}
             scale={0.35}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_157.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_158.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[5.182, 8.612, 7.609]} rotation={[0, -0.863, 0]} scale={0.08}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_168.geometry}
               material={materials.MetallicPalette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_169.geometry}
               material={materials.EmissivePalette}
             />
           </group>
           <group position={[3.553, 14.976, 5.69]} rotation={[0, -0.874, 0]} scale={3.468}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_183.geometry}
               material={materials.MetallicPalette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_184.geometry}
               material={materials.EmissivePalette}
             />
@@ -610,14 +474,10 @@ export function Beach(props) {
             rotation={[-Math.PI, 0.041, -Math.PI]}
             scale={2.663}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_606.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_607.geometry}
               material={materials.EmissivePalette}
             />
@@ -627,182 +487,130 @@ export function Beach(props) {
             rotation={[-Math.PI, 0.041, -Math.PI]}
             scale={2.663}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_609.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_610.geometry}
               material={materials.EmissivePalette}
             />
           </group>
           <group position={[1.528, 2.588, -0.437]} rotation={[0, 1.312, 0]} scale={0.92}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_872.geometry}
               material={materials.MetallicPalette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_873.geometry}
               material={materials.EmissivePalette}
             />
           </group>
           <group position={[1.528, 2.588, -0.437]} rotation={[0, 1.312, 0]} scale={0.92}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_877.geometry}
               material={materials.MetallicPalette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_878.geometry}
               material={materials.EmissivePalette}
             />
           </group>
           <group position={[1.528, 2.588, -0.437]} rotation={[0, 1.312, 0]} scale={0.92}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_884.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_885.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[1.966, 19.233, 2.405]} scale={0.078}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_905.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_906.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[-3.858, 5.856, 7.616]} rotation={[0, 0.693, 0]}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_908.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_909.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[-5.582, 4.198, 8.144]} rotation={[-1.298, 0.163, 1.274]}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_911.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_912.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[-6.573, 4.512, 7.41]} rotation={[Math.PI / 2, 1.312, 0]} scale={0.92}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_917.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_918.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[-7.267, 4.512, 7.41]} rotation={[Math.PI / 2, 1.312, 0]} scale={0.92}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_920.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_921.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[-6.949, 4.982, 7.434]} rotation={[Math.PI / 2, 1.312, 0]} scale={0.92}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_923.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_924.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[5.591, 4.103, 0.945]} rotation={[1.038, 1.2, -0.987]} scale={0.92}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_926.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_927.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <group position={[7.9, 4.618, 13.698]} scale={0.92}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_929.geometry}
               material={materials.Base_Palette}
             />
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_930.geometry}
               material={materials.MetallicPalette}
             />
           </group>
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_31.geometry}
             material={materials.MetallicPalette}
             position={[17.804, 4.679, -11.194]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_33.geometry}
             material={materials.MetallicPalette}
             position={[18.858, 0.108, -10.799]}
@@ -810,8 +618,6 @@ export function Beach(props) {
             scale={[1.316, 1.316, 0.79]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_35.geometry}
             material={materials.Base_Palette}
             position={[5.457, 15.853, 5.791]}
@@ -819,8 +625,6 @@ export function Beach(props) {
             scale={0.137}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_37.geometry}
             material={materials.Base_Palette}
             position={[5.457, 15.853, 5.791]}
@@ -828,8 +632,6 @@ export function Beach(props) {
             scale={0.137}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_39.geometry}
             material={materials.Base_Palette}
             position={[5.457, 15.853, 5.791]}
@@ -837,8 +639,6 @@ export function Beach(props) {
             scale={0.137}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_41.geometry}
             material={materials.Base_Palette}
             position={[5.457, 15.853, 5.791]}
@@ -846,8 +646,6 @@ export function Beach(props) {
             scale={0.137}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_43.geometry}
             material={materials.Base_Palette}
             position={[5.457, 15.853, 5.791]}
@@ -855,8 +653,6 @@ export function Beach(props) {
             scale={0.26}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_45.geometry}
             material={materials.Base_Palette}
             position={[5.457, 15.853, 5.791]}
@@ -864,8 +660,6 @@ export function Beach(props) {
             scale={0.372}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_47.geometry}
             material={materials.MetallicPalette}
             position={[5.457, 15.853, 5.791]}
@@ -873,8 +667,6 @@ export function Beach(props) {
             scale={0.32}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_49.geometry}
             material={materials.Base_Palette}
             position={[5.457, 15.853, 5.791]}
@@ -882,8 +674,6 @@ export function Beach(props) {
             scale={0.372}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_51.geometry}
             material={materials.Base_Palette}
             position={[5.457, 15.853, 5.791]}
@@ -891,8 +681,6 @@ export function Beach(props) {
             scale={0.372}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_53.geometry}
             material={materials.Base_Palette}
             position={[-5.613, 4.527, 6.229]}
@@ -900,8 +688,6 @@ export function Beach(props) {
             scale={0.372}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_55.geometry}
             material={materials.Base_Palette}
             position={[5.255, 4.318, 1.953]}
@@ -909,32 +695,24 @@ export function Beach(props) {
             scale={0.372}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_60.geometry}
             material={materials.Base_Palette}
             position={[0, 0.611, 0]}
             rotation={[0, 0, 0.05]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_62.geometry}
             material={materials.Base_Palette}
             position={[0, 0.611, 0]}
             rotation={[0, 0, 0.05]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_64.geometry}
             material={materials.PirateFlag}
             position={[0, 0.611, 0]}
             rotation={[0, 0, 0.05]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_69.geometry}
             material={materials.Base_Palette}
             position={[-2.843, 3.596, -9.544]}
@@ -942,23 +720,17 @@ export function Beach(props) {
             scale={1.329}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_74.geometry}
             material={materials.MetallicPalette}
             position={[-11.295, 3.59, 8.437]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_79.geometry}
             material={materials.MetallicPalette}
             position={[-11.276, 3.634, 8.81]}
           />
           <group ref={el => crabRefs.current[0] = el}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_81.geometry}
               material={materials.Base_Palette}
               position={[5.1, 3.532, 10.665]}
@@ -968,8 +740,6 @@ export function Beach(props) {
           </group>
           <group ref={el => crabRefs.current[1] = el}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_83.geometry}
               material={materials.Base_Palette}
               position={[4.108, 3.17, 11.065]}
@@ -979,8 +749,6 @@ export function Beach(props) {
           </group>
           <group ref={el => crabRefs.current[2] = el}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_85.geometry}
               material={materials.Base_Palette}
               position={[1.96, 2.335, 13.32]}
@@ -990,8 +758,6 @@ export function Beach(props) {
           </group>
           <group ref={smallBoatRef}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_87.geometry}
               material={materials.Base_Palette}
               position={[16.884, 2.687, 13.412]}
@@ -1000,16 +766,12 @@ export function Beach(props) {
             />
           </group>
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_89.geometry}
             material={materials.Base_Palette}
             position={[13.712, 2.976, 12.667]}
           />
           <group ref={el => crabRefs.current[3] = el}>
             <mesh
-              castShadow
-              receiveShadow
               geometry={nodes.Object_91.geometry}
               material={materials.Base_Palette}
               position={[-13.762, -0.339, -13.727]}
@@ -1018,8 +780,6 @@ export function Beach(props) {
             />
           </group>
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_93.geometry}
             material={materials.Base_Palette}
             position={[1.497, 4.117, -3.715]}
@@ -1027,8 +787,6 @@ export function Beach(props) {
             scale={0.407}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_95.geometry}
             material={materials.Base_Palette}
             position={[-0.627, 3.604, -4.879]}
@@ -1036,8 +794,6 @@ export function Beach(props) {
             scale={0.407}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_160.geometry}
             material={materials.Base_Palette}
             position={[5.182, 8.612, 7.609]}
@@ -1045,8 +801,6 @@ export function Beach(props) {
             scale={0.08}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_162.geometry}
             material={materials.Base_Palette}
             position={[5.182, 8.612, 7.609]}
@@ -1054,8 +808,6 @@ export function Beach(props) {
             scale={0.08}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_164.geometry}
             material={materials.Base_Palette}
             position={[5.182, 8.612, 7.609]}
@@ -1063,8 +815,6 @@ export function Beach(props) {
             scale={0.08}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_166.geometry}
             material={materials.Base_Palette}
             position={[5.182, 8.612, 7.609]}
@@ -1072,8 +822,6 @@ export function Beach(props) {
             scale={0.08}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_171.geometry}
             material={materials.Base_Palette}
             position={[5.048, 8.001, 5.181]}
@@ -1081,8 +829,6 @@ export function Beach(props) {
             scale={0.053}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_173.geometry}
             material={materials.Base_Palette}
             position={[4.271, 8.001, 4.271]}
@@ -1090,8 +836,6 @@ export function Beach(props) {
             scale={0.053}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_175.geometry}
             material={materials.Base_Palette}
             position={[3.458, 3.993, 5.579]}
@@ -1099,8 +843,6 @@ export function Beach(props) {
             scale={1.466}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_177.geometry}
             material={materials.MetallicPalette}
             position={[3.553, 19.645, 5.628]}
@@ -1108,8 +850,6 @@ export function Beach(props) {
             scale={0.562}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_179.geometry}
             material={materials.Base_Palette}
             position={[3.553, 14.275, 5.69]}
@@ -1117,8 +857,6 @@ export function Beach(props) {
             scale={1.466}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_181.geometry}
             material={materials.MetallicPalette}
             position={[3.456, 15.196, 5.575]}
@@ -1126,8 +864,6 @@ export function Beach(props) {
             scale={0.847}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_186.geometry}
             material={materials.Glass_Palette}
             position={[3.876, 15.204, 6.056]}
@@ -1135,16 +871,12 @@ export function Beach(props) {
             scale={1.225}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_188.geometry}
             material={materials.Base_Palette}
             position={[4.325, 5.607, 6.62]}
             scale={[1, 0.921, 1]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_190.geometry}
             material={materials.Base_Palette}
             position={[4.522, 8.59, 4.892]}
@@ -1152,8 +884,6 @@ export function Beach(props) {
             scale={[0.869, 0.785, 1.163]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_192.geometry}
             material={materials.Base_Palette}
             position={[4.921, 8.169, 4.405]}
@@ -1161,8 +891,6 @@ export function Beach(props) {
             scale={0.426}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_194.geometry}
             material={materials.Base_Palette}
             position={[4.577, 8.195, 3.505]}
@@ -1170,8 +898,6 @@ export function Beach(props) {
             scale={[0.182, 0.182, 0.13]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_196.geometry}
             material={materials.Base_Palette}
             position={[3.748, 7.74, 2.351]}
@@ -1179,33 +905,23 @@ export function Beach(props) {
             scale={[0.182, 0.182, 0.13]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_198.geometry}
             material={materials.Base_Island_Texture}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_200.geometry}
             material={materials.Base_Island_Texture}
             position={[-0.001, 0.049, 0]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_202.geometry}
             material={materials.Base_Island_Texture}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_204.geometry}
             material={materials.Base_Island_Texture}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_206.geometry}
             material={materials.Base_Palette}
             position={[-8.762, 3.51, 7.463]}
@@ -1213,8 +929,6 @@ export function Beach(props) {
             scale={0.433}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_208.geometry}
             material={materials.Base_Palette}
             position={[7.541, 4.386, -19.32]}
@@ -1222,24 +936,18 @@ export function Beach(props) {
             scale={0.357}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_210.geometry}
             material={materials.Base_Palette}
             position={[-0.172, 1.778, -7.662]}
             scale={0.465}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_212.geometry}
             material={materials.Base_Palette}
             position={[3.27, 1.783, -6.404]}
             scale={0.465}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_214.geometry}
             material={materials.Base_Palette}
             position={[8.359, 4.183, 14.291]}
@@ -1247,8 +955,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_216.geometry}
             material={materials.Base_Palette}
             position={[7.959, 4.183, 13.992]}
@@ -1256,8 +962,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_218.geometry}
             material={materials.Base_Palette}
             position={[9.17, 4.183, 12.374]}
@@ -1265,8 +969,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_220.geometry}
             material={materials.Base_Palette}
             position={[7.591, 4.183, 13.717]}
@@ -1274,8 +976,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_222.geometry}
             material={materials.Base_Palette}
             position={[8.416, 4.183, 11.81]}
@@ -1283,8 +983,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_224.geometry}
             material={materials.Base_Palette}
             position={[7.205, 4.183, 13.428]}
@@ -1292,8 +990,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_226.geometry}
             material={materials.Base_Palette}
             position={[6.818, 4.183, 13.139]}
@@ -1301,8 +997,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_228.geometry}
             material={materials.Base_Palette}
             position={[8.029, 4.183, 11.521]}
@@ -1310,8 +1004,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_230.geometry}
             material={materials.Base_Palette}
             position={[10.298, 4.184, 15.761]}
@@ -1319,8 +1011,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_232.geometry}
             material={materials.Base_Palette}
             position={[9.898, 4.184, 15.462]}
@@ -1328,8 +1018,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_234.geometry}
             material={materials.Base_Palette}
             position={[11.109, 4.182, 13.844]}
@@ -1337,8 +1025,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_236.geometry}
             material={materials.Base_Palette}
             position={[9.53, 4.184, 15.186]}
@@ -1346,8 +1032,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_238.geometry}
             material={materials.Base_Palette}
             position={[10.355, 4.184, 13.28]}
@@ -1355,8 +1039,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_240.geometry}
             material={materials.Base_Palette}
             position={[9.144, 4.182, 14.898]}
@@ -1364,8 +1046,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_242.geometry}
             material={materials.Base_Palette}
             position={[8.757, 4.183, 14.609]}
@@ -1373,8 +1053,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_244.geometry}
             material={materials.Base_Palette}
             position={[9.968, 4.183, 12.99]}
@@ -1382,32 +1060,24 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_246.geometry}
             material={materials.Base_Palette}
             position={[9.089, 3.872, 14.832]}
             rotation={[0, -0.631, 0]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_248.geometry}
             material={materials.Base_Palette}
             position={[10.26, 3.872, 13.23]}
             rotation={[0, -0.631, 0]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_250.geometry}
             material={materials.Base_Palette}
             position={[9.692, 3.872, 14.008]}
             rotation={[0, -0.631, 0]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_252.geometry}
             material={materials.Base_Palette}
             position={[10.221, 3.661, 16.121]}
@@ -1415,8 +1085,6 @@ export function Beach(props) {
             scale={0.935}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_254.geometry}
             material={materials.Base_Palette}
             position={[11.122, 2.572, 15.214]}
@@ -1424,8 +1092,6 @@ export function Beach(props) {
             scale={0.935}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_256.geometry}
             material={materials.Base_Palette}
             position={[5.935, 3.656, 10.062]}
@@ -1433,8 +1099,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_258.geometry}
             material={materials.Base_Palette}
             position={[5.287, 3.789, 9.514]}
@@ -1442,8 +1106,6 @@ export function Beach(props) {
             scale={[0.242, 0.242, 0.173]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_260.geometry}
             material={materials.Base_Palette}
             position={[10.195, 2.691, 16.075]}
@@ -1451,8 +1113,6 @@ export function Beach(props) {
             scale={0.175}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_262.geometry}
             material={materials.Base_Palette}
             position={[11.715, -0.371, 13.921]}
@@ -1460,16 +1120,12 @@ export function Beach(props) {
             scale={0.175}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_264.geometry}
             material={materials.Base_Palette}
             position={[9.326, -0.771, 15.666]}
             scale={2.117}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_266.geometry}
             material={materials.Base_Palette}
             position={[15.956, -0.27, 15.783]}
@@ -1477,8 +1133,6 @@ export function Beach(props) {
             scale={0.617}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_268.geometry}
             material={materials.Base_Palette}
             position={[-11.079, -0.079, 20.85]}
@@ -1486,16 +1140,12 @@ export function Beach(props) {
             scale={0.617}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_270.geometry}
             material={materials.Base_Palette}
             position={[-20.164, 0.126, -5.507]}
             scale={1.392}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_272.geometry}
             material={materials.Base_Palette}
             position={[-13.879, 0.249, -16.2]}
@@ -1503,8 +1153,6 @@ export function Beach(props) {
             scale={0.579}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_278.geometry}
             material={materials.Base_Palette}
             position={[-19.2, 0.856, 4.523]}
@@ -1512,8 +1160,6 @@ export function Beach(props) {
             scale={[0.129, 0.232, 0.339]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_280.geometry}
             material={materials.Base_Palette}
             position={[20.773, -0.223, -16.364]}
@@ -1521,8 +1167,6 @@ export function Beach(props) {
             scale={0.615}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_282.geometry}
             material={materials.Base_Palette}
             position={[21.46, -0.364, -17.635]}
@@ -1530,8 +1174,6 @@ export function Beach(props) {
             scale={0.069}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_284.geometry}
             material={materials.Base_Palette}
             position={[22.288, -0.237, -14.441]}
@@ -1539,8 +1181,6 @@ export function Beach(props) {
             scale={0.818}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_286.geometry}
             material={materials.Base_Palette}
             position={[18.613, -0.223, -16.364]}
@@ -1548,8 +1188,6 @@ export function Beach(props) {
             scale={0.251}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_288.geometry}
             material={materials.Base_Palette}
             position={[19.3, -0.364, -17.635]}
@@ -1557,8 +1195,6 @@ export function Beach(props) {
             scale={0.744}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_290.geometry}
             material={materials.Base_Palette}
             position={[20.129, -0.4, -14.441]}
@@ -1566,8 +1202,6 @@ export function Beach(props) {
             scale={0.859}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_292.geometry}
             material={materials.Base_Palette}
             position={[18.613, -0.403, 13.874]}
@@ -1575,8 +1209,6 @@ export function Beach(props) {
             scale={0.303}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_294.geometry}
             material={materials.Base_Palette}
             position={[19.3, -0.34, 14.763]}
@@ -1584,8 +1216,6 @@ export function Beach(props) {
             scale={0.322}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_296.geometry}
             material={materials.Base_Palette}
             position={[20.129, -0.248, 15.798]}
@@ -1593,8 +1223,6 @@ export function Beach(props) {
             scale={0.346}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_298.geometry}
             material={materials.Base_Palette}
             position={[18.613, -0.44, 18.194]}
@@ -1602,8 +1230,6 @@ export function Beach(props) {
             scale={0.685}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_300.geometry}
             material={materials.Base_Palette}
             position={[19.3, -0.376, 16.923]}
@@ -1611,8 +1237,6 @@ export function Beach(props) {
             scale={0.859}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_302.geometry}
             material={materials.Base_Palette}
             position={[20.129, -0.445, 20.117]}
@@ -1620,8 +1244,6 @@ export function Beach(props) {
             scale={0.097}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_304.geometry}
             material={materials.Base_Palette}
             position={[16.454, -0.228, 13.874]}
@@ -1629,8 +1251,6 @@ export function Beach(props) {
             scale={0.522}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_306.geometry}
             material={materials.Base_Palette}
             position={[17.14, -0.24, 12.603]}
@@ -1638,8 +1258,6 @@ export function Beach(props) {
             scale={0.62}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_308.geometry}
             material={materials.Base_Palette}
             position={[17.969, -0.368, 13.638]}
@@ -1647,8 +1265,6 @@ export function Beach(props) {
             scale={0.652}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_310.geometry}
             material={materials.Base_Palette}
             position={[16.454, -0.228, 13.874]}
@@ -1656,8 +1272,6 @@ export function Beach(props) {
             scale={0.005}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_312.geometry}
             material={materials.Base_Palette}
             position={[17.14, -0.354, 14.763]}
@@ -1665,8 +1279,6 @@ export function Beach(props) {
             scale={0.595}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_314.geometry}
             material={materials.Base_Palette}
             position={[17.969, -0.434, 15.798]}
@@ -1674,8 +1286,6 @@ export function Beach(props) {
             scale={0.768}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_316.geometry}
             material={materials.Base_Palette}
             position={[16.454, -0.431, 16.034]}
@@ -1683,8 +1293,6 @@ export function Beach(props) {
             scale={0.192}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_318.geometry}
             material={materials.Base_Palette}
             position={[17.14, -0.354, 14.763]}
@@ -1692,8 +1300,6 @@ export function Beach(props) {
             scale={0.375}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_320.geometry}
             material={materials.Base_Palette}
             position={[17.969, -0.434, 15.798]}
@@ -1701,8 +1307,6 @@ export function Beach(props) {
             scale={0.487}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_322.geometry}
             material={materials.Base_Palette}
             position={[16.454, -0.233, 20.354]}
@@ -1710,8 +1314,6 @@ export function Beach(props) {
             scale={0.585}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_324.geometry}
             material={materials.Base_Palette}
             position={[14.98, -0.205, -17.635]}
@@ -1719,8 +1321,6 @@ export function Beach(props) {
             scale={0.377}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_326.geometry}
             material={materials.Base_Palette}
             position={[15.809, -0.205, -16.601]}
@@ -1728,8 +1328,6 @@ export function Beach(props) {
             scale={0.91}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_328.geometry}
             material={materials.Base_Palette}
             position={[14.294, -0.205, -16.364]}
@@ -1737,8 +1335,6 @@ export function Beach(props) {
             scale={0.326}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_330.geometry}
             material={materials.Base_Palette}
             position={[14.98, -0.205, -17.635]}
@@ -1746,8 +1342,6 @@ export function Beach(props) {
             scale={0.256}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_332.geometry}
             material={materials.Base_Palette}
             position={[15.809, -0.205, -16.601]}
@@ -1755,8 +1349,6 @@ export function Beach(props) {
             scale={0.329}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_334.geometry}
             material={materials.Base_Palette}
             position={[14.294, -0.228, -14.204]}
@@ -1764,8 +1356,6 @@ export function Beach(props) {
             scale={0.03}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_336.geometry}
             material={materials.Base_Palette}
             position={[14.98, -0.24, -15.476]}
@@ -1773,8 +1363,6 @@ export function Beach(props) {
             scale={0.152}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_338.geometry}
             material={materials.Base_Palette}
             position={[15.809, -0.368, -14.441]}
@@ -1782,8 +1370,6 @@ export function Beach(props) {
             scale={0.53}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_340.geometry}
             material={materials.Base_Palette}
             position={[14.294, -0.228, -14.204]}
@@ -1791,8 +1377,6 @@ export function Beach(props) {
             scale={0.47}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_342.geometry}
             material={materials.Base_Palette}
             position={[14.98, -0.24, -15.476]}
@@ -1800,8 +1384,6 @@ export function Beach(props) {
             scale={0.871}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_344.geometry}
             material={materials.Base_Palette}
             position={[15.809, -0.368, -14.441]}
@@ -1809,8 +1391,6 @@ export function Beach(props) {
             scale={0.099}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_346.geometry}
             material={materials.Base_Palette}
             position={[14.294, -0.228, -14.204]}
@@ -1818,8 +1398,6 @@ export function Beach(props) {
             scale={0.273}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_348.geometry}
             material={materials.Base_Palette}
             position={[14.98, -0.319, -13.316]}
@@ -1827,8 +1405,6 @@ export function Beach(props) {
             scale={0.291}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_350.geometry}
             material={materials.Base_Palette}
             position={[15.809, -0.271, -12.281]}
@@ -1836,8 +1412,6 @@ export function Beach(props) {
             scale={0.715}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_352.geometry}
             material={materials.Base_Palette}
             position={[14.294, -0.407, -12.044]}
@@ -1845,8 +1419,6 @@ export function Beach(props) {
             scale={0.4}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_354.geometry}
             material={materials.Base_Palette}
             position={[14.98, -0.319, -13.316]}
@@ -1854,8 +1426,6 @@ export function Beach(props) {
             scale={0.285}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_356.geometry}
             material={materials.Base_Palette}
             position={[15.809, -0.271, -12.281]}
@@ -1863,8 +1433,6 @@ export function Beach(props) {
             scale={0.362}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_358.geometry}
             material={materials.Base_Palette}
             position={[14.294, -0.205, 13.874]}
@@ -1872,8 +1440,6 @@ export function Beach(props) {
             scale={0.403}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_360.geometry}
             material={materials.Base_Palette}
             position={[14.98, -0.205, 12.603]}
@@ -1881,8 +1447,6 @@ export function Beach(props) {
             scale={0.672}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_362.geometry}
             material={materials.Base_Palette}
             position={[15.809, -0.368, 15.798]}
@@ -1890,8 +1454,6 @@ export function Beach(props) {
             scale={0.55}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_364.geometry}
             material={materials.Base_Palette}
             position={[14.294, -0.228, 16.034]}
@@ -1899,8 +1461,6 @@ export function Beach(props) {
             scale={0.215}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_366.geometry}
             material={materials.Base_Palette}
             position={[14.98, -0.24, 14.763]}
@@ -1908,8 +1468,6 @@ export function Beach(props) {
             scale={0.724}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_368.geometry}
             material={materials.Base_Palette}
             position={[15.809, -0.238, 17.957]}
@@ -1917,8 +1475,6 @@ export function Beach(props) {
             scale={0.945}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_370.geometry}
             material={materials.Base_Palette}
             position={[14.294, -0.205, 20.354]}
@@ -1926,8 +1482,6 @@ export function Beach(props) {
             scale={0.339}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_372.geometry}
             material={materials.Base_Palette}
             position={[12.82, -0.205, -17.635]}
@@ -1935,8 +1489,6 @@ export function Beach(props) {
             scale={0.844}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_374.geometry}
             material={materials.Base_Palette}
             position={[13.649, -0.205, -16.601]}
@@ -1944,8 +1496,6 @@ export function Beach(props) {
             scale={0.069}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_376.geometry}
             material={materials.Base_Palette}
             position={[12.134, -0.205, -16.364]}
@@ -1953,8 +1503,6 @@ export function Beach(props) {
             scale={0.109}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_378.geometry}
             material={materials.Base_Palette}
             position={[12.82, -0.205, -17.635]}
@@ -1962,8 +1510,6 @@ export function Beach(props) {
             scale={0.436}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_380.geometry}
             material={materials.Base_Palette}
             position={[13.649, -0.237, -14.441]}
@@ -1971,8 +1517,6 @@ export function Beach(props) {
             scale={0.56}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_382.geometry}
             material={materials.Base_Palette}
             position={[12.134, -0.403, -14.204]}
@@ -1980,8 +1524,6 @@ export function Beach(props) {
             scale={0.13}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_384.geometry}
             material={materials.Base_Palette}
             position={[12.82, -0.25, -15.476]}
@@ -1989,8 +1531,6 @@ export function Beach(props) {
             scale={0.731}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_386.geometry}
             material={materials.Base_Palette}
             position={[13.649, -0.237, -14.441]}
@@ -1998,8 +1538,6 @@ export function Beach(props) {
             scale={0.128}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_388.geometry}
             material={materials.Base_Palette}
             position={[12.134, -0.403, -14.204]}
@@ -2007,8 +1545,6 @@ export function Beach(props) {
             scale={0.709}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_390.geometry}
             material={materials.Base_Palette}
             position={[12.82, -0.25, -15.476]}
@@ -2016,8 +1552,6 @@ export function Beach(props) {
             scale={0.956}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_392.geometry}
             material={materials.Base_Palette}
             position={[13.649, -0.237, -14.441]}
@@ -2025,8 +1559,6 @@ export function Beach(props) {
             scale={0.82}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_394.geometry}
             material={materials.Base_Palette}
             position={[12.134, -0.403, -14.204]}
@@ -2034,8 +1566,6 @@ export function Beach(props) {
             scale={0.739}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_396.geometry}
             material={materials.Base_Palette}
             position={[12.82, -0.25, -15.476]}
@@ -2043,8 +1573,6 @@ export function Beach(props) {
             scale={0.897}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_398.geometry}
             material={materials.Base_Palette}
             position={[13.649, -0.237, -14.441]}
@@ -2052,8 +1580,6 @@ export function Beach(props) {
             scale={0.01}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_400.geometry}
             material={materials.Base_Palette}
             position={[12.134, -0.44, -12.044]}
@@ -2061,8 +1587,6 @@ export function Beach(props) {
             scale={0.567}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_402.geometry}
             material={materials.Base_Palette}
             position={[12.82, -0.376, -13.316]}
@@ -2070,8 +1594,6 @@ export function Beach(props) {
             scale={0.548}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_404.geometry}
             material={materials.Base_Palette}
             position={[13.649, -0.411, -12.281]}
@@ -2079,8 +1601,6 @@ export function Beach(props) {
             scale={0.376}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_406.geometry}
             material={materials.Base_Palette}
             position={[12.134, -0.44, -12.044]}
@@ -2088,8 +1608,6 @@ export function Beach(props) {
             scale={0.592}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_408.geometry}
             material={materials.Base_Palette}
             position={[12.82, -0.376, -13.316]}
@@ -2097,8 +1615,6 @@ export function Beach(props) {
             scale={0.893}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_410.geometry}
             material={materials.Base_Palette}
             position={[13.649, -0.411, -12.281]}
@@ -2106,8 +1622,6 @@ export function Beach(props) {
             scale={0.743}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_412.geometry}
             material={materials.Base_Palette}
             position={[12.134, -0.218, 18.194]}
@@ -2115,8 +1629,6 @@ export function Beach(props) {
             scale={0.353}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_414.geometry}
             material={materials.Base_Palette}
             position={[12.82, -0.295, 16.923]}
@@ -2124,8 +1636,6 @@ export function Beach(props) {
             scale={0.855}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_416.geometry}
             material={materials.Base_Palette}
             position={[13.649, -0.205, 20.117]}
@@ -2133,8 +1643,6 @@ export function Beach(props) {
             scale={0.88}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_418.geometry}
             material={materials.Base_Palette}
             position={[9.974, -0.403, -16.364]}
@@ -2142,8 +1650,6 @@ export function Beach(props) {
             scale={0.011}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_420.geometry}
             material={materials.Base_Palette}
             position={[10.661, -0.25, -17.635]}
@@ -2151,8 +1657,6 @@ export function Beach(props) {
             scale={0.854}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_422.geometry}
             material={materials.Base_Palette}
             position={[11.489, -0.379, -14.441]}
@@ -2160,8 +1664,6 @@ export function Beach(props) {
             scale={0.831}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_424.geometry}
             material={materials.Base_Palette}
             position={[9.974, -0.242, -14.204]}
@@ -2169,8 +1671,6 @@ export function Beach(props) {
             scale={0.625}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_426.geometry}
             material={materials.Base_Palette}
             position={[10.661, -0.331, -15.476]}
@@ -2178,8 +1678,6 @@ export function Beach(props) {
             scale={0.573}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_428.geometry}
             material={materials.Base_Palette}
             position={[11.489, -0.379, -14.441]}
@@ -2187,8 +1685,6 @@ export function Beach(props) {
             scale={0.903}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_430.geometry}
             material={materials.Base_Palette}
             position={[9.974, -0.233, -12.044]}
@@ -2196,8 +1692,6 @@ export function Beach(props) {
             scale={0.706}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_432.geometry}
             material={materials.Base_Palette}
             position={[4.181, -0.274, -21.955]}
@@ -2205,8 +1699,6 @@ export function Beach(props) {
             scale={0.372}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_434.geometry}
             material={materials.Base_Palette}
             position={[5.009, -0.205, -18.761]}
@@ -2214,8 +1706,6 @@ export function Beach(props) {
             scale={0.507}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_436.geometry}
             material={materials.Base_Palette}
             position={[-0.826, -0.403, -20.684]}
@@ -2223,8 +1713,6 @@ export function Beach(props) {
             scale={0.148}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_438.geometry}
             material={materials.Base_Palette}
             position={[-0.139, -0.331, -19.795]}
@@ -2232,8 +1720,6 @@ export function Beach(props) {
             scale={0.156}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_440.geometry}
             material={materials.Base_Palette}
             position={[-14.43, -0.379, -14.441]}
@@ -2241,8 +1727,6 @@ export function Beach(props) {
             scale={0.59}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_442.geometry}
             material={materials.Base_Palette}
             position={[-15.665, 0.824, 17.937]}
@@ -2250,8 +1734,6 @@ export function Beach(props) {
             scale={0.183}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_444.geometry}
             material={materials.Base_Palette}
             position={[-17.252, 0.197, 16.753]}
@@ -2259,8 +1741,6 @@ export function Beach(props) {
             scale={0.802}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_446.geometry}
             material={materials.Base_Palette}
             position={[-16.31, 0.753, 17.692]}
@@ -2268,8 +1748,6 @@ export function Beach(props) {
             scale={0.712}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_448.geometry}
             material={materials.Base_Palette}
             position={[-18.004, -0.054, 20.242]}
@@ -2277,8 +1755,6 @@ export function Beach(props) {
             scale={0.436}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_450.geometry}
             material={materials.Base_Palette}
             position={[-17.175, 0.548, 18.834]}
@@ -2286,8 +1762,6 @@ export function Beach(props) {
             scale={0.901}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_452.geometry}
             material={materials.Base_Palette}
             position={[-18.749, -0.401, 2.838]}
@@ -2295,8 +1769,6 @@ export function Beach(props) {
             scale={0.022}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_454.geometry}
             material={materials.Base_Palette}
             position={[-20.25, -0.189, 16.017]}
@@ -2304,8 +1776,6 @@ export function Beach(props) {
             scale={0.861}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_456.geometry}
             material={materials.Base_Palette}
             position={[-19.564, -0.282, 14.747]}
@@ -2313,8 +1783,6 @@ export function Beach(props) {
             scale={0.196}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_458.geometry}
             material={materials.Base_Palette}
             position={[-18.506, 0.443, 17.688]}
@@ -2322,8 +1790,6 @@ export function Beach(props) {
             scale={0.059}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_460.geometry}
             material={materials.Base_Palette}
             position={[-20.239, -0.353, 20.324]}
@@ -2331,8 +1797,6 @@ export function Beach(props) {
             scale={0.85}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_580.geometry}
             material={materials.Base_Palette}
             position={[-18.725, 0.414, 4.467]}
@@ -2340,8 +1804,6 @@ export function Beach(props) {
             scale={[0.108, 0.194, 0.282]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_582.geometry}
             material={materials.Base_Palette}
             position={[-18.101, 0.954, 3.583]}
@@ -2349,8 +1811,6 @@ export function Beach(props) {
             scale={[0.119, 0.214, 0.312]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_584.geometry}
             material={materials.Base_Palette}
             position={[-6.145, 0.856, -15.896]}
@@ -2358,8 +1818,6 @@ export function Beach(props) {
             scale={[0.104, 0.188, 0.274]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_586.geometry}
             material={materials.Base_Palette}
             position={[-5.631, 0.452, -16.108]}
@@ -2367,8 +1825,6 @@ export function Beach(props) {
             scale={[0.168, 0.302, 0.44]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_588.geometry}
             material={materials.Base_Palette}
             position={[-5.046, 0.954, -16.837]}
@@ -2376,8 +1832,6 @@ export function Beach(props) {
             scale={[0.109, 0.196, 0.286]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_590.geometry}
             material={materials.Base_Palette}
             position={[16.811, 0.452, -15.25]}
@@ -2385,8 +1839,6 @@ export function Beach(props) {
             scale={[0.168, 0.302, 0.44]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_592.geometry}
             material={materials.Base_Palette}
             position={[17.5, 0.936, -15.425]}
@@ -2394,16 +1846,12 @@ export function Beach(props) {
             scale={[0.1, 0.181, 0.263]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_594.geometry}
             material={materials.Base_Palette}
             position={[-2.985, 3.72, 21.944]}
             scale={3.704}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_596.geometry}
             material={materials.Base_Palette}
             position={[-3.477, 3.788, 21.127]}
@@ -2411,8 +1859,6 @@ export function Beach(props) {
             scale={2.518}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_598.geometry}
             material={materials.Base_Palette}
             position={[-7.391, 1.252, -4.535]}
@@ -2420,8 +1866,6 @@ export function Beach(props) {
             scale={1.888}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_600.geometry}
             material={materials.Base_Palette}
             position={[-3.013, 4.567, 12.297]}
@@ -2429,8 +1873,6 @@ export function Beach(props) {
             scale={2.186}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_602.geometry}
             material={materials.Base_Palette}
             position={[-12.573, -0.329, -11.555]}
@@ -2438,8 +1880,6 @@ export function Beach(props) {
             scale={1.888}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_604.geometry}
             material={materials.Base_Palette}
             position={[-0.855, 7.551, 1.127]}
@@ -2447,8 +1887,6 @@ export function Beach(props) {
             scale={2.663}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_612.geometry}
             material={materials.Base_Palette}
             position={[-6.463, 7.917, 4.019]}
@@ -2456,8 +1894,6 @@ export function Beach(props) {
             scale={2.663}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_614.geometry}
             material={materials.MetallicPalette}
             position={[-1.798, 12.12, 2.967]}
@@ -2465,59 +1901,43 @@ export function Beach(props) {
             scale={2.663}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_616.geometry}
             material={materials.Base_Palette}
             position={[4.35, 19.143, -3.57]}
             scale={0.66}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_618.geometry}
             material={materials.Base_Palette}
             position={[-1.317, 20.3, -3.474]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_620.geometry}
             material={materials.Base_Palette}
             position={[-2.075, 22.707, -1.386]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_622.geometry}
             material={materials.Base_Palette}
             position={[-3.991, 20.545, 0.902]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_624.geometry}
             material={materials.Base_Palette}
             position={[0.698, 19.376, 6.757]}
             scale={0.87}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_626.geometry}
             material={materials.Base_Palette}
             position={[3.504, 28.367, -0.5]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_628.geometry}
             material={materials.Base_Palette}
             position={[0.433, 29.076, 0.408]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_630.geometry}
             material={materials.Base_Palette}
             position={[3.802, 7.631, 1.356]}
@@ -2525,24 +1945,18 @@ export function Beach(props) {
             scale={1.209}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_632.geometry}
             material={materials.Base_Palette}
             position={[3.994, 16.732, 0.537]}
             scale={0.66}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_634.geometry}
             material={materials.Base_Palette}
             position={[-0.394, 16.588, -3.926]}
             scale={0.585}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_636.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2550,8 +1964,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_638.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2559,8 +1971,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_640.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2568,8 +1978,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_642.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2577,8 +1985,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_644.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2586,8 +1992,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_646.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2595,8 +1999,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_648.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2604,8 +2006,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_650.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2613,8 +2013,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_652.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2622,8 +2020,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_654.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2631,8 +2027,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_656.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2640,8 +2034,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_658.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2649,8 +2041,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_660.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2658,8 +2048,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_662.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2667,8 +2055,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_664.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2676,8 +2062,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_666.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2685,8 +2069,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_668.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2694,8 +2076,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_670.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2703,8 +2083,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_672.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2712,8 +2090,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_674.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2721,8 +2097,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_676.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2730,8 +2104,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_678.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2739,8 +2111,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_680.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2748,8 +2118,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_682.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2757,8 +2125,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_684.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2766,8 +2132,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_686.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2775,8 +2139,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_688.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2784,8 +2146,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_690.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2793,8 +2153,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_692.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2802,8 +2160,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_694.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2811,8 +2167,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_696.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2820,8 +2174,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_698.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2829,8 +2181,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_700.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2838,8 +2188,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_702.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2847,8 +2195,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_704.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2856,8 +2202,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_706.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2865,8 +2209,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_708.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2874,8 +2216,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_710.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2883,8 +2223,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_712.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2892,8 +2230,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_714.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2901,8 +2237,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_716.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2910,8 +2244,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_718.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2919,8 +2251,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_720.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2928,8 +2258,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_722.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2937,8 +2265,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_724.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2946,8 +2272,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_726.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2955,8 +2279,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_728.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2964,8 +2286,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_730.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2973,8 +2293,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_732.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2982,8 +2300,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_734.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -2991,8 +2307,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_736.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3000,8 +2314,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_738.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3009,8 +2321,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_740.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3018,8 +2328,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_742.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3027,8 +2335,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_744.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3036,8 +2342,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_746.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3045,8 +2349,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_748.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3054,8 +2356,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_750.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3063,8 +2363,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_752.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3072,8 +2370,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_754.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3081,8 +2377,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_756.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3090,8 +2384,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_758.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3099,8 +2391,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_760.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3108,8 +2398,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_762.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3117,8 +2405,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_764.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3126,8 +2412,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_766.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3135,8 +2419,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_768.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3144,8 +2426,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_770.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3153,8 +2433,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_772.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3162,8 +2440,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_774.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3171,8 +2447,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_776.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3180,8 +2454,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_778.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3189,8 +2461,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_780.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3198,8 +2468,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_782.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3207,8 +2475,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_784.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3216,8 +2482,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_786.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3225,8 +2489,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_788.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3234,8 +2496,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_790.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3243,8 +2503,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_792.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3252,8 +2510,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_794.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3261,8 +2517,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_796.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3270,8 +2524,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_798.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3279,8 +2531,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_800.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3288,8 +2538,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_802.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3297,8 +2545,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_804.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3306,8 +2552,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_806.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3315,8 +2559,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_808.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3324,8 +2566,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_810.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3333,8 +2573,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_812.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3342,8 +2580,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_814.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3351,8 +2587,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_816.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3360,8 +2594,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_818.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3369,8 +2601,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_820.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3378,8 +2608,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_822.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3387,8 +2615,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_824.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3396,8 +2622,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_826.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3405,8 +2629,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_828.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3414,8 +2636,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_830.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3423,8 +2643,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_832.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3432,8 +2650,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_834.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3441,8 +2657,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_836.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3450,8 +2664,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_838.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3459,8 +2671,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_840.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3468,8 +2678,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_842.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3477,8 +2685,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_844.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3486,8 +2692,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_846.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3495,8 +2699,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_848.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3504,8 +2706,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_850.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3513,8 +2713,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_852.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3522,8 +2720,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_854.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3531,8 +2727,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_856.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3540,8 +2734,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_858.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3549,8 +2741,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_860.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3558,8 +2748,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_862.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3567,8 +2755,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_864.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3576,8 +2762,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_866.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3585,8 +2769,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_868.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3594,8 +2776,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_870.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3603,8 +2783,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_875.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3612,8 +2790,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_880.geometry}
             material={materials.MetallicPalette}
             position={[1.528, 2.588, -0.437]}
@@ -3621,8 +2797,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_882.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3630,8 +2804,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_887.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3639,8 +2811,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_889.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3648,8 +2818,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_891.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3657,8 +2825,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_893.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3666,8 +2832,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_895.geometry}
             material={materials.MetallicPalette}
             position={[1.528, 2.588, -0.437]}
@@ -3675,8 +2839,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_897.geometry}
             material={materials.MetallicPalette}
             position={[1.528, 2.588, -0.437]}
@@ -3684,8 +2846,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_899.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3693,8 +2853,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_901.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3702,8 +2860,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_903.geometry}
             material={materials.Base_Palette}
             position={[1.528, 2.588, -0.437]}
@@ -3711,8 +2867,6 @@ export function Beach(props) {
             scale={0.92}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_932.geometry}
             material={materials.Base_Palette}
             position={[4.767, 12.249, 7.631]}
@@ -3720,8 +2874,6 @@ export function Beach(props) {
             scale={[0.291, 0.577, 0.291]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_934.geometry}
             material={materials.Base_Palette}
             position={[5.693, 12.249, 4.887]}
@@ -3729,8 +2881,6 @@ export function Beach(props) {
             scale={[0.291, 0.577, 0.291]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_936.geometry}
             material={materials.Base_Palette}
             position={[2.727, 12.249, 3.563]}
@@ -3738,8 +2888,6 @@ export function Beach(props) {
             scale={[0.291, 0.577, 0.291]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_938.geometry}
             material={materials.Base_Palette}
             position={[1.302, 12.249, 6.084]}
@@ -3747,8 +2895,6 @@ export function Beach(props) {
             scale={[0.291, 0.577, 0.291]}
           />
           <mesh
-            castShadow
-            receiveShadow
             geometry={nodes.Object_940.geometry}
             material={materials.Base_Palette}
             position={[4.767, 9.174, 7.631]}

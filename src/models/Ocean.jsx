@@ -1,6 +1,15 @@
-import React, { useRef, useEffect, useMemo } from "react";
+import React, { useRef, useMemo } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
+
+/* ─── helper: detect device tier ─── */
+function getDeviceTier() {
+  if (typeof window === "undefined") return "high";
+  const w = window.innerWidth;
+  if (w < 768) return "low";
+  if (w < 1280) return "medium";
+  return "high";
+}
 
 /* ─── vertex shader ─── */
 const vertexShader = /* glsl */ `
@@ -11,46 +20,30 @@ varying vec2  vUv;
 varying vec3  vWorldPos;
 varying vec3  vNormal_ws;
 varying float vHeight;
-varying vec4  vScreen;
 
 #define PI 3.14159265359
 
-// Gerstner wave: physically-correct orbital motion
-// wave = vec4(dirX, dirY, steepness, wavelength)
 vec3 gerstner(vec4 wave, vec3 p, inout vec3 T, inout vec3 B) {
   float S  = wave.z;
   float wl = wave.w;
   float k  = 2.0 * PI / wl;
-  float c  = sqrt(9.81 / k);          // phase speed (deep water)
+  float c  = sqrt(9.81 / k);
   vec2  d  = normalize(wave.xy);
   float f  = k * (dot(d, p.xy) - c * uTime);
-  float a  = S / k;                    // amplitude
+  float a  = S / k;
 
-  // accumulate tangent & binormal derivatives
-  T += vec3(
-    -d.x * d.x * S * sin(f),
-    -d.x * d.y * S * sin(f),
-     d.x * S * cos(f)
-  );
-  B += vec3(
-    -d.x * d.y * S * sin(f),
-    -d.y * d.y * S * sin(f),
-     d.y * S * cos(f)
-  );
+  T += vec3(-d.x * d.x * S * sin(f), -d.x * d.y * S * sin(f), d.x * S * cos(f));
+  B += vec3(-d.x * d.y * S * sin(f), -d.y * d.y * S * sin(f), d.y * S * cos(f));
 
-  return vec3(d.x * a * cos(f),
-              d.y * a * cos(f),
-              a * sin(f));
+  return vec3(d.x * a * cos(f), d.y * a * cos(f), a * sin(f));
 }
 
 void main() {
   vUv = uv;
-
-  vec3 T = vec3(1.0, 0.0, 0.0);   // tangent  (∂p/∂x)
-  vec3 B = vec3(0.0, 1.0, 0.0);   // binormal (∂p/∂y)
+  vec3 T = vec3(1.0, 0.0, 0.0);
+  vec3 B = vec3(0.0, 1.0, 0.0);
   vec3 pos = position;
 
-  // 6 Gerstner wave layers — large swell → micro-chop
   pos += gerstner(vec4( 1.0,  0.5,  0.15, 80.0), position, T, B);
   pos += gerstner(vec4( 0.7,  0.9,  0.12, 45.0), position, T, B);
   pos += gerstner(vec4(-0.3,  1.0,  0.08, 25.0), position, T, B);
@@ -61,186 +54,189 @@ void main() {
   pos.z *= uAmplitude;
   vHeight = pos.z;
 
-  // analytic normal
   vec3 N = normalize(cross(T, B));
   vNormal_ws = normalize((modelMatrix * vec4(N, 0.0)).xyz);
 
   vec4 wp = modelMatrix * vec4(pos, 1.0);
   vWorldPos = wp.xyz;
-
-  vec4 clip = projectionMatrix * viewMatrix * wp;
-  vScreen    = clip;
-  gl_Position = clip;
+  gl_Position = projectionMatrix * viewMatrix * wp;
 }
 `;
 
-/* ─── fragment shader ─── */
+/* ─── fragment shader — vibrant stylized ocean ─── */
 const fragmentShader = /* glsl */ `
 precision highp float;
 
-uniform sampler2D uRefraction;
-uniform vec3  uWaterColor;
+uniform vec3  uShallowColor;
 uniform vec3  uDeepColor;
+uniform vec3  uMidColor;
 uniform vec3  uFoamColor;
 uniform vec3  uSunDir;
 uniform vec3  uSunColor;
+uniform vec3  uSkyColor;
+uniform vec3  uHorizonColor;
 uniform float uTime;
 uniform vec3  uCamPos;
-uniform float uUnderwaterMix;   // 0 = above, 1 = fully submerged
+uniform float uIsNight;
 
 varying vec2  vUv;
 varying vec3  vWorldPos;
 varying vec3  vNormal_ws;
 varying float vHeight;
-varying vec4  vScreen;
 
-/* ─── simplex 2-D noise ─── */
-vec3 mod289_3(vec3 x){ return x - floor(x*(1.0/289.0))*289.0; }
-vec2 mod289_2(vec2 x){ return x - floor(x*(1.0/289.0))*289.0; }
-vec3 perm(vec3 x){ return mod289_3(((x*34.0)+1.0)*x); }
+/* simplex 2D noise */
+vec3 mod289(vec3 x){ return x - floor(x*(1.0/289.0))*289.0; }
+vec2 mod289v2(vec2 x){ return x - floor(x*(1.0/289.0))*289.0; }
+vec3 perm(vec3 x){ return mod289(((x*34.0)+1.0)*x); }
 
 float snoise(vec2 v){
   const vec4 C = vec4(0.211324865,0.366025403,-0.577350269,0.024390244);
-  vec2 i  = floor(v + dot(v, C.yy));
+  vec2 i = floor(v + dot(v, C.yy));
   vec2 x0 = v - i + dot(i, C.xx);
   vec2 i1 = (x0.x > x0.y) ? vec2(1.0,0.0) : vec2(0.0,1.0);
   vec4 x12 = x0.xyxy + C.xxzz;
   x12.xy -= i1;
-  i = mod289_2(i);
+  i = mod289v2(i);
   vec3 p = perm(perm(i.y + vec3(0.0,i1.y,1.0)) + i.x + vec3(0.0,i1.x,1.0));
   vec3 m = max(0.5 - vec3(dot(x0,x0), dot(x12.xy,x12.xy), dot(x12.zw,x12.zw)), 0.0);
   m = m*m; m = m*m;
   vec3 xx = 2.0*fract(p*C.www)-1.0;
-  vec3 h  = abs(xx)-0.5;
+  vec3 h = abs(xx)-0.5;
   vec3 ox = floor(xx+0.5);
   vec3 a0 = xx - ox;
   m *= 1.79284291400159 - 0.85373472095314*(a0*a0+h*h);
   vec3 g;
-  g.x  = a0.x *x0.x  + h.x *x0.y;
+  g.x = a0.x*x0.x + h.x*x0.y;
   g.yz = a0.yz*x12.xz + h.yz*x12.yw;
   return 130.0*dot(m,g);
 }
 
-/* ─── worley-like cell noise for caustics ─── */
-float worley(vec2 p){
-  vec2 i = floor(p);
-  vec2 f = fract(p);
-  float d = 1.0;
-  for(int y=-1;y<=1;y++)
-  for(int x=-1;x<=1;x++){
-    vec2 n = vec2(float(x),float(y));
-    vec2 r = n + fract(sin(dot(i+n, vec2(127.1,311.7)))*43758.5453) - f;
-    d = min(d, dot(r,r));
-  }
-  return sqrt(d);
-}
-
 void main(){
-  /* screen UV */
-  vec2 sUV = vScreen.xy / vScreen.w * 0.5 + 0.5;
-
   vec3 N = normalize(vNormal_ws);
   vec3 V = normalize(uCamPos - vWorldPos);
-
-  // flip normal when looking from below
   if(dot(V, N) < 0.0) N = -N;
 
-  /* ── refraction ── */
-  float d1 = snoise(vWorldPos.xz * 0.015 + uTime * 0.2) * 0.02;
-  float d2 = snoise(vWorldPos.xz * 0.04  + uTime * 0.35)* 0.01;
-  vec2 rUV = clamp(sUV + vec2(d1, d2), 0.005, 0.995);
-  vec3 refr = texture2D(uRefraction, rUV).rgb;
-
-  /* ── fresnel ── */
+  /* ── Fresnel ── */
   float cosA = max(dot(V, N), 0.0);
-  float F    = pow(1.0 - cosA, 4.0);
-  F = clamp(F, 0.04, 0.96);
+  float fresnel = pow(1.0 - cosA, 3.5);
+  fresnel = clamp(fresnel, 0.05, 0.95);
 
-  /* ── depth colour ── */
-  float dm   = smoothstep(-1.5, 2.0, vHeight);
-  vec3  wCol = mix(uDeepColor, uWaterColor, dm);
+  /* ── Water body color — vibrant blue gradient ── */
+  float depthFactor = smoothstep(-2.0, 1.5, vHeight);
+  vec3 waterBody = mix(uDeepColor, uMidColor, depthFactor * 0.6);
+  waterBody = mix(waterBody, uShallowColor, depthFactor * depthFactor);
 
-  /* ── sky reflection ── */
-  vec3 R      = reflect(-V, N);
-  float sky   = smoothstep(-0.1, 0.4, R.y);
-  vec3 reflCol = mix(vec3(0.08,0.22,0.55), vec3(0.5,0.72,1.0), sky);
+  // Subtle color variation
+  float colorNoise = snoise(vWorldPos.xz * 0.01 + uTime * 0.03) * 0.08;
+  waterBody += vec3(0.0, colorNoise * 0.5, colorNoise);
 
-  /* ── combine ── */
-  vec3 col = mix(refr * wCol * 1.4, reflCol, F);
+  /* ── Sky reflection ── */
+  vec3 R = reflect(-V, N);
+  float skyFactor = smoothstep(-0.1, 0.5, R.y);
+  vec3 reflColor = mix(uHorizonColor, uSkyColor, skyFactor);
 
-  /* ── sub-surface scattering ── */
-  float sss = pow(max(dot(V, -normalize(uSunDir)), 0.0), 3.0) * 0.25;
-  col += vec3(0.0, 0.25, 0.15) * sss;
+  /* ── Combine body + reflection ── */
+  vec3 col = mix(waterBody, reflColor, fresnel * 0.6);
 
-  /* ── foam ── */
-  float fn1  = snoise(vWorldPos.xz * 0.06 + uTime * 0.15);
-  float fn2  = snoise(vWorldPos.xz * 0.15 + uTime * 0.3);
-  float foam = smoothstep(0.35, 1.2, vHeight)
-             * smoothstep(0.2, 0.55, fn1*0.6 + fn2*0.4);
-  foam += smoothstep(0.5, 0.9, snoise(vWorldPos.xz*0.4+uTime*0.7))
-        * smoothstep(0.15, 0.7, vHeight) * 0.12;
+  /* ── Sub-surface scattering (translucent wave crests) ── */
+  vec3 sunDir = normalize(uSunDir);
+  float sss = pow(max(dot(V, -sunDir), 0.0), 3.0) * 0.2;
+  float crestGlow = smoothstep(0.2, 1.2, vHeight) * 0.15;
+  vec3 sssColor = mix(vec3(0.0, 0.4, 0.55), vec3(0.1, 0.6, 0.5), 1.0 - uIsNight);
+  col += sssColor * (sss + crestGlow);
+
+  /* ── Foam ── */
+  float fn1 = snoise(vWorldPos.xz * 0.06 + uTime * 0.12);
+  float fn2 = snoise(vWorldPos.xz * 0.18 + uTime * 0.25);
+  float foam = smoothstep(0.4, 1.3, vHeight) * smoothstep(0.15, 0.5, fn1 * 0.6 + fn2 * 0.4);
+  foam += smoothstep(0.6, 1.0, snoise(vWorldPos.xz * 0.5 + uTime * 0.6))
+        * smoothstep(0.2, 0.8, vHeight) * 0.08;
   foam = clamp(foam, 0.0, 1.0);
-  col  = mix(col, uFoamColor, foam * 0.55);
+  col = mix(col, uFoamColor, foam * 0.5);
 
-  /* ── sun specular ── */
-  vec3  H  = normalize(normalize(uSunDir) + V);
-  float sp = pow(max(dot(N, H), 0.0), 256.0);
-  col += uSunColor * sp * 2.5;
-  col += uSunColor * pow(max(dot(N, H), 0.0), 48.0) * 0.2;
+  /* ── Sun specular ── */
+  vec3 H = normalize(sunDir + V);
+  float spec1 = pow(max(dot(N, H), 0.0), 350.0);  // sharp sun disk
+  float spec2 = pow(max(dot(N, H), 0.0), 40.0);   // broad glow
+  float spec3 = pow(max(dot(N, H), 0.0), 6.0);    // wide shimmer
+  col += uSunColor * spec1 * 3.0;
+  col += uSunColor * spec2 * 0.2;
+  col += uSunColor * spec3 * 0.03;
 
-  /* ── underwater caustics projected on surface from below ── */
-  float caustic = worley(vWorldPos.xz * 0.12 + uTime * 0.3);
-  caustic = pow(1.0 - caustic, 3.0);
-  col += vec3(0.2, 0.5, 0.7) * caustic * uUnderwaterMix * 0.4;
+  /* ── Horizon distance fade ── */
+  float dist = length(vWorldPos.xz - uCamPos.xz);
+  float horizonFade = smoothstep(60.0, 300.0, dist);
+  col = mix(col, mix(uHorizonColor, uDeepColor, 0.3), horizonFade * 0.35);
 
-  /* ── underwater tint (blended when camera submerges) ── */
-  vec3 uwTint = mix(col, col * vec3(0.3, 0.6, 0.9), uUnderwaterMix * 0.3);
+  float alpha = mix(0.88, 1.0, fresnel);
 
-  float alpha = mix(0.82, 1.0, F);
-
-  gl_FragColor = vec4(uwTint, alpha);
+  gl_FragColor = vec4(col, alpha);
 }
 `;
 
 /* ═══════════════════════════════════════════ */
 /*               <Ocean /> component           */
 /* ═══════════════════════════════════════════ */
-const Ocean = ({ isNightMode = false, waterLevel = -10, underwaterProgress = 0 }) => {
+const Ocean = ({ isNightMode = false, waterLevel = -10 }) => {
   const meshRef = useRef();
-  const { scene, gl, camera, size } = useThree();
+  const { camera } = useThree();
 
-  /* ── refraction FBO ── */
-  const fbo = useMemo(() => {
-    const w = Math.min(Math.round(size.width * 0.6), 1536);
-    const h = Math.min(Math.round(size.height * 0.6), 1536);
-    return new THREE.WebGLRenderTarget(w, h, {
-      minFilter: THREE.LinearFilter,
-      magFilter: THREE.LinearFilter,
-      format: THREE.RGBAFormat,
-    });
-  }, [size.width, size.height]);
+  const segments = useMemo(() => {
+    const tier = getDeviceTier();
+    switch (tier) {
+      case "low":   return 48;
+      case "medium": return 80;
+      default:      return 128;
+    }
+  }, []);
 
-  useEffect(() => () => fbo.dispose(), [fbo]);
-
-  /* ── shader material ── */
   const material = useMemo(() => {
-    const wc = isNightMode ? new THREE.Color("#0466b8") : new THREE.Color("#0588e6");
-    const dc = isNightMode ? new THREE.Color("#001a33") : new THREE.Color("#003366");
-    const fc = isNightMode ? new THREE.Color("#88bbdd") : new THREE.Color("#eef8ff");
-    const sc = isNightMode ? new THREE.Color("#8899bb") : new THREE.Color("#fff5e0");
+    // Vibrant, beautiful ocean colors inspired by reference images
+    const nightFactor = isNightMode ? 1.0 : 0.0;
+
+    // Day: vibrant cerulean/cobalt blue  |  Night: deep navy
+    const shallow = isNightMode
+      ? new THREE.Color("#0a5ca8")
+      : new THREE.Color("#1e90ff");  // Bright dodger blue
+
+    const mid = isNightMode
+      ? new THREE.Color("#054080")
+      : new THREE.Color("#0077cc");  // Rich ocean blue
+
+    const deep = isNightMode
+      ? new THREE.Color("#001833")
+      : new THREE.Color("#003d6b");  // Deep ocean blue
+
+    const foam = isNightMode
+      ? new THREE.Color("#6699bb")
+      : new THREE.Color("#e8f4ff");  // Bright white-blue foam
+
+    const sun = isNightMode
+      ? new THREE.Color("#556688")
+      : new THREE.Color("#fffbe6");  // Warm golden sun
+
+    const sky = isNightMode
+      ? new THREE.Color("#0a1e5c")
+      : new THREE.Color("#4db8ff");  // Bright sky blue
+
+    const horizon = isNightMode
+      ? new THREE.Color("#0f3060")
+      : new THREE.Color("#7dd3fc");  // Light sky horizon
 
     return new THREE.ShaderMaterial({
       uniforms: {
-        uTime: { value: 0 },
-        uAmplitude: { value: 1.0 },
-        uRefraction: { value: null },
-        uWaterColor: { value: wc },
-        uDeepColor: { value: dc },
-        uFoamColor: { value: fc },
-        uSunDir: { value: new THREE.Vector3(0.5, 0.8, 0.3).normalize() },
-        uSunColor: { value: sc },
-        uCamPos: { value: new THREE.Vector3() },
-        uUnderwaterMix: { value: 0 },
+        uTime:         { value: 0 },
+        uAmplitude:    { value: 1.0 },
+        uShallowColor: { value: shallow },
+        uMidColor:     { value: mid },
+        uDeepColor:    { value: deep },
+        uFoamColor:    { value: foam },
+        uSunDir:       { value: new THREE.Vector3(0.5, 0.8, 0.3).normalize() },
+        uSunColor:     { value: sun },
+        uCamPos:       { value: new THREE.Vector3() },
+        uSkyColor:     { value: sky },
+        uHorizonColor: { value: horizon },
+        uIsNight:      { value: nightFactor },
       },
       vertexShader,
       fragmentShader,
@@ -250,26 +246,11 @@ const Ocean = ({ isNightMode = false, waterLevel = -10, underwaterProgress = 0 }
     });
   }, [isNightMode]);
 
-  /* ── per-frame update ── */
   useFrame((state) => {
     if (!meshRef.current) return;
     const mat = meshRef.current.material;
-
     mat.uniforms.uTime.value = state.clock.elapsedTime;
     mat.uniforms.uCamPos.value.copy(camera.position);
-    mat.uniforms.uUnderwaterMix.value = underwaterProgress;
-
-    // refraction pass — render scene without water to FBO
-    meshRef.current.visible = false;
-    const prevBg = scene.background;
-    gl.setRenderTarget(fbo);
-    gl.clear();
-    gl.render(scene, camera);
-    gl.setRenderTarget(null);
-    scene.background = prevBg;
-    meshRef.current.visible = true;
-
-    mat.uniforms.uRefraction.value = fbo.texture;
   });
 
   return (
@@ -281,7 +262,7 @@ const Ocean = ({ isNightMode = false, waterLevel = -10, underwaterProgress = 0 }
       frustumCulled={false}
       renderOrder={999}
     >
-      <planeGeometry args={[400, 300, 200, 200]} />
+      <planeGeometry args={[400, 300, segments, segments]} />
     </mesh>
   );
 };

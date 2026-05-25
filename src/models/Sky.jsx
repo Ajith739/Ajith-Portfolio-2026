@@ -6,11 +6,11 @@ import * as THREE from "three";
 import skyScene from "../assets/3d/sky.glb";
 
 // ═══════════════════════════════════════════════════════════
-//  STARS – cross/diamond shaped, twinkling (from second block)
+//  STARS – GPU-driven twinkling (no CPU per-frame loop)
 // ═══════════════════════════════════════════════════════════
 function Stars({ visible }) {
   const starsRef = useRef();
-  const starCount = 700;
+  const starCount = 400; // reduced from 700
 
   const { positions, sizes, starTypes, offsets } = useMemo(() => {
     const positions = new Float32Array(starCount * 3);
@@ -45,37 +45,32 @@ function Stars({ visible }) {
     return { positions, sizes, starTypes, offsets };
   }, []);
 
-  const sizeArray = useMemo(() => new Float32Array(sizes), [sizes]);
-
-  useFrame(({ clock }) => {
-    if (!starsRef.current || !visible) return;
-    const time = clock.getElapsedTime();
-    const attr = starsRef.current.geometry.attributes.size;
-
-    for (let i = 0; i < starCount; i++) {
-      const pulse = Math.sin(time * (0.8 + (i % 7) * 0.2) + offsets[i]) * 0.5 + 0.5;
-      attr.array[i] = sizes[i] * (0.65 + pulse * 0.65);
-    }
-    attr.needsUpdate = true;
-  });
-
+  // GPU-driven twinkling via uTime uniform — no CPU loop!
   const material = useMemo(() => {
     return new THREE.ShaderMaterial({
       transparent: true,
       depthWrite: false,
       depthTest: false,
       blending: THREE.AdditiveBlending,
+      uniforms: {
+        uTime: { value: 0 },
+      },
       vertexShader: `
         attribute float size;
         attribute float starType;
+        attribute float offset;
         varying float vStarType;
         varying float vSize;
+        uniform float uTime;
 
         void main() {
           vStarType = starType;
-          vSize = size;
+          // GPU-driven twinkle: compute pulse entirely on GPU
+          float pulse = sin(uTime * (0.8 + mod(float(gl_VertexID), 7.0) * 0.2) + offset) * 0.5 + 0.5;
+          float animSize = size * (0.65 + pulse * 0.65);
+          vSize = animSize;
           vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = size * (280.0 / -mvPosition.z);
+          gl_PointSize = animSize * (280.0 / -mvPosition.z);
           gl_Position = projectionMatrix * mvPosition;
         }
       `,
@@ -115,14 +110,21 @@ function Stars({ visible }) {
     });
   }, []);
 
+  // Only update the time uniform — no buffer uploads!
+  useFrame(({ clock }) => {
+    if (!starsRef.current || !visible) return;
+    material.uniforms.uTime.value = clock.getElapsedTime();
+  });
+
   if (!visible) return null;
 
   return (
     <points ref={starsRef} material={material} renderOrder={100}>
       <bufferGeometry>
         <bufferAttribute attach="attributes-position" array={positions} count={starCount} itemSize={3} />
-        <bufferAttribute attach="attributes-size" array={sizeArray} count={starCount} itemSize={1} />
+        <bufferAttribute attach="attributes-size" array={sizes} count={starCount} itemSize={1} />
         <bufferAttribute attach="attributes-starType" array={starTypes} count={starCount} itemSize={1} />
+        <bufferAttribute attach="attributes-offset" array={offsets} count={starCount} itemSize={1} />
       </bufferGeometry>
     </points>
   );
@@ -183,14 +185,15 @@ function NightSkyDome({ visible }) {
 
   return (
     <mesh ref={domeRef} renderOrder={-1}>
-      <sphereGeometry args={[150, 32, 32]} />
+      <sphereGeometry args={[150, 24, 24]} />
       <primitive object={domeMaterial} attach="material" />
     </mesh>
   );
 }
 
 // ═══════════════════════════════════════════════════════════
-//  CLOUDS – billboard clouds with canvas textures (from third block)
+//  CLOUDS – billboard clouds with canvas textures
+//  Single useFrame for ALL clouds (merged callbacks)
 // ═══════════════════════════════════════════════════════════
 function makeCloudTexture(seed = 0) {
   const W = 512, H = 320;
@@ -235,55 +238,79 @@ function makeCloudTexture(seed = 0) {
   return new THREE.CanvasTexture(canvas);
 }
 
-function Cloud({ position, width, height, opacity, seed }) {
-  const meshRef = useRef();
+// Cloud data for all instances (no individual components with useFrame)
+const CLOUD_CONFIGS = [
+  // LEFT SIDE
+  { pos: [-45, 18, -25], w: 85, h: 55, seed: 1 },
+  { pos: [-60, 6, -35], w: 75, h: 45, seed: 5 },
+  { pos: [-38, 30, -20], w: 70, h: 45, seed: 9 },
+  { pos: [-55, 34, -40], w: 70, h: 40, seed: 13 },
+  // RIGHT SIDE
+  { pos: [45, 18, -25], w: 85, h: 55, seed: 2 },
+  { pos: [60, 6, -35], w: 75, h: 45, seed: 6 },
+  { pos: [38, 30, -20], w: 70, h: 45, seed: 10 },
+  { pos: [55, 34, -40], w: 70, h: 40, seed: 14 },
+  // HORIZON
+  { pos: [-20, 4, -60], w: 60, h: 25, seed: 3 },
+  { pos: [0, 3, -65], w: 70, h: 25, seed: 7 },
+  { pos: [20, 4, -60], w: 60, h: 25, seed: 11 },
+];
 
-  const texture = useMemo(() => makeCloudTexture(seed), [seed]);
-  const material = useMemo(() =>
-    new THREE.MeshBasicMaterial({
-      map: texture, transparent: true, opacity,
-      depthWrite: false, side: THREE.DoubleSide,
-      blending: THREE.NormalBlending,
-    }), [texture, opacity]
-  );
+const CLOUD_OPACITIES = [
+  // LEFT
+  1.0, 0.82, 0.65, 0.52,
+  // RIGHT
+  1.0, 0.82, 0.65, 0.52,
+  // HORIZON
+  0.38, 0.32, 0.38,
+];
 
-  // Billboard: face camera every frame
+function Clouds({ isNightMode }) {
+  const cloudRefs = useRef([]);
+  const baseOp = isNightMode ? 0.84 : 0.95;
+
+  // Create textures and materials once
+  const cloudData = useMemo(() => {
+    return CLOUD_CONFIGS.map((c, i) => {
+      const texture = makeCloudTexture(c.seed);
+      const material = new THREE.MeshBasicMaterial({
+        map: texture,
+        transparent: true,
+        opacity: baseOp * CLOUD_OPACITIES[i],
+        depthWrite: false,
+        side: THREE.DoubleSide,
+        blending: THREE.NormalBlending,
+      });
+      return { ...c, material };
+    });
+  }, []); // only create once
+
+  // Update opacity when mode changes (without recreating materials)
+  useEffect(() => {
+    cloudData.forEach((c, i) => {
+      c.material.opacity = baseOp * CLOUD_OPACITIES[i];
+    });
+  }, [isNightMode, baseOp, cloudData]);
+
+  // Single useFrame for ALL clouds — merged billboard update
   useFrame(({ camera }) => {
-    if (meshRef.current) meshRef.current.quaternion.copy(camera.quaternion);
+    const refs = cloudRefs.current;
+    for (let i = 0; i < refs.length; i++) {
+      if (refs[i]) refs[i].quaternion.copy(camera.quaternion);
+    }
   });
 
   return (
-    <mesh ref={meshRef} position={position} material={material}>
-      <planeGeometry args={[width, height]} />
-    </mesh>
-  );
-}
-
-function Clouds({ isNightMode }) {
-  const op = isNightMode ? 0.84 : 0.95;
-  const clouds = [
-    // LEFT SIDE — large primary cloud + layered backups to build a massive frame
-    { pos: [-45, 18, -25], w: 85, h: 55, o: op, seed: 1 },
-    { pos: [-60, 6, -35], w: 75, h: 45, o: op * 0.82, seed: 5 },
-    { pos: [-38, 30, -20], w: 70, h: 45, o: op * 0.65, seed: 9 },
-    { pos: [-55, 34, -40], w: 70, h: 40, o: op * 0.52, seed: 13 },
-
-    // RIGHT SIDE — mirrored
-    { pos: [45, 18, -25], w: 85, h: 55, o: op, seed: 2 },
-    { pos: [60, 6, -35], w: 75, h: 45, o: op * 0.82, seed: 6 },
-    { pos: [38, 30, -20], w: 70, h: 45, o: op * 0.65, seed: 10 },
-    { pos: [55, 34, -40], w: 70, h: 40, o: op * 0.52, seed: 14 },
-
-    // HORIZON — distant, wide, low opacity (keeps the center clear for text/island)
-    { pos: [-20, 4, -60], w: 60, h: 25, o: op * 0.38, seed: 3 },
-    { pos: [0, 3, -65], w: 70, h: 25, o: op * 0.32, seed: 7 },
-    { pos: [20, 4, -60], w: 60, h: 25, o: op * 0.38, seed: 11 },
-  ];
-
-  return (
     <>
-      {clouds.map((c, i) => (
-        <Cloud key={i} position={c.pos} width={c.w} height={c.h} opacity={c.o} seed={c.seed} />
+      {cloudData.map((c, i) => (
+        <mesh
+          key={i}
+          ref={(el) => (cloudRefs.current[i] = el)}
+          position={c.pos}
+          material={c.material}
+        >
+          <planeGeometry args={[c.w, c.h]} />
+        </mesh>
       ))}
     </>
   );
@@ -326,32 +353,47 @@ function Moon({ visible }) {
 export function Sky({ isNightMode = true }) {
   const sky = useGLTF(skyScene);
   const skyRef = useRef();
-  const originalMaterialRef = useRef(null);
 
-  // Tint the GLB sky sphere (clouds texture)
-  useEffect(() => {
+  // Cache the original material ONCE — prevent memory leak from repeated cloning
+  const originalMaterial = useMemo(() => {
+    let mat = null;
     sky.scene.traverse((child) => {
-      if (child.isMesh && child.material) {
-        if (!originalMaterialRef.current) {
-          originalMaterialRef.current = child.material.clone();
-        }
-
-        if (isNightMode) {
-          child.material = originalMaterialRef.current.clone();
-          child.material.color.set(new THREE.Color(0.2, 0.25, 0.5));
-          child.material.emissive = new THREE.Color(0.02, 0.04, 0.08);
-          child.material.emissiveIntensity = 0.5;
-          child.material.transparent = true;
-          child.material.opacity = 0.85;
-          child.material.needsUpdate = true;
-        } else {
-          // Restore the fully original unmutated material for bright day view
-          child.material = originalMaterialRef.current.clone();
-          child.material.needsUpdate = true;
-        }
+      if (child.isMesh && child.material && !mat) {
+        mat = child.material.clone();
       }
     });
-  }, [isNightMode, sky.scene]);
+    return mat;
+  }, [sky.scene]);
+
+  // Night-mode material (created once, reused)
+  const nightMaterial = useMemo(() => {
+    if (!originalMaterial) return null;
+    const mat = originalMaterial.clone();
+    mat.color.set(new THREE.Color(0.2, 0.25, 0.5));
+    mat.emissive = new THREE.Color(0.02, 0.04, 0.08);
+    mat.emissiveIntensity = 0.5;
+    mat.transparent = true;
+    mat.opacity = 0.85;
+    return mat;
+  }, [originalMaterial]);
+
+  // Day-mode material (created once, reused)
+  const dayMaterial = useMemo(() => {
+    if (!originalMaterial) return null;
+    return originalMaterial.clone();
+  }, [originalMaterial]);
+
+  // Switch material reference — no cloning on every toggle!
+  useEffect(() => {
+    const targetMat = isNightMode ? nightMaterial : dayMaterial;
+    if (!targetMat) return;
+    sky.scene.traverse((child) => {
+      if (child.isMesh && child.material) {
+        child.material = targetMat;
+        child.material.needsUpdate = true;
+      }
+    });
+  }, [isNightMode, sky.scene, nightMaterial, dayMaterial]);
 
   // Animate cloud drift
   useFrame(({ clock }, delta) => {
