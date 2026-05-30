@@ -79,24 +79,22 @@
       border-radius: 16px;
     }
 
-    /* Responsive adjustments for the video so it doesn't block the background on mobile */
-    @media (max-width: 768px) {
+    /* ─── Mobile & Tablet: hide the video widget so the 3D background is fully visible ─── */
+    @media (max-width: 991px) {
       .mxd-hero-10__media {
-        max-width: 85% !important;
-        margin: 2rem auto 0 auto !important;
+        display: none !important;
       }
     }
 
-    /* Responsive layout & alignment for the center section on PC/laptops */
+    /* ─── Desktop: compact video widget positioned to the right ─── */
     @media (min-width: 992px) {
       .mxd-hero-10__center {
         display: flex !important;
         flex-direction: row !important;
         justify-content: space-between !important;
-        align-items: center !important; /* Perfect vertical alignment */
+        align-items: center !important;
       }
 
-      /* Compact sizing for media widget on standard laptops/PCs to prevent blocking the 3D island */
       .mxd-hero-10__media {
         max-width: 320px !important;
         margin-left: auto !important;
@@ -112,7 +110,7 @@
       }
     }
 
-    /* Larger screens: slightly more room, but still compact to respect background space */
+    /* Larger screens: slightly more room */
     @media (min-width: 1440px) {
       .mxd-hero-10__media {
         max-width: 360px !important;
