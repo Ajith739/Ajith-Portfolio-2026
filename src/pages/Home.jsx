@@ -2,10 +2,12 @@ import { Suspense, useState, useEffect, useCallback, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { useThree, useFrame } from "@react-three/fiber";
+import { PerformanceMonitor } from "@react-three/drei";
 import Loader from "../components/Loader";
 import { Sky } from "../models/Sky";
 import Ocean from "../models/Ocean";
 import { Beach } from "../models/beach";
+import useAdaptivePerformance from "../hooks/useAdaptivePerformance";
 
 // ─── Read the template's current theme state ───
 function getCurrentTheme() {
@@ -57,8 +59,31 @@ function SceneBackground({ isNightMode }) {
   return null;
 }
 
+// ─── FPS Recorder — minimal component to feed the performance engine ───
+function FPSRecorder({ recordFrame }) {
+  useFrame((state) => {
+    recordFrame(state.clock.elapsedTime * 1000);
+  });
+  return null;
+}
+
 const Home = () => {
   const [isNightMode, setIsNightMode] = useState(() => getCurrentTheme());
+  const [isVisible, setIsVisible] = useState(true);
+  const containerRef = useRef(null);
+
+  // Adaptive performance from engine
+  const {
+    dpr,
+    oceanSegments,
+    starCount,
+    cloudCount,
+    prefersReducedMotion,
+    recordFrame,
+  } = useAdaptivePerformance();
+
+  // Adaptive DPR state — drei PerformanceMonitor can further adjust this
+  const [adaptiveDpr, setAdaptiveDpr] = useState(dpr[1]);
 
   const [beachConfig, setBeachConfig] = useState({
     scale: [1.5, 1.5, 1.5],
@@ -91,6 +116,21 @@ const Home = () => {
     window.addEventListener("resize", adjustModelsForScreenSize);
     return () => window.removeEventListener("resize", adjustModelsForScreenSize);
   }, [adjustModelsForScreenSize]);
+
+  // ─── Intersection Observer: pause rendering when not visible ───
+  useEffect(() => {
+    if (!containerRef.current) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        setIsVisible(entry.isIntersecting);
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
 
   // ─── Theme sync ───
   useEffect(() => {
@@ -156,11 +196,24 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="home-container" style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: -1, overflow: "hidden" }}>
+    <div
+      ref={containerRef}
+      className="home-container"
+      style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        zIndex: -1,
+        overflow: "hidden",
+      }}
+    >
       <Canvas
         className="home-canvas"
         camera={{ near: 0.1, far: 1000, position: [0, 2, 25], fov: 60 }}
-        dpr={[1, 1.5]}
+        dpr={adaptiveDpr}
+        frameloop={isVisible ? "always" : "never"}
         gl={{
           powerPreference: "high-performance",
           antialias: false,
@@ -168,9 +221,32 @@ const Home = () => {
           stencil: false,
           depth: true,
         }}
-        style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none" }}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
+        }}
       >
+        {/* Auto-regress DPR when FPS drops below 30 */}
+        <PerformanceMonitor
+          ms={250}
+          iterations={4}
+          threshold={0.65}
+          onDecline={() =>
+            setAdaptiveDpr((prev) => Math.max(prev - 0.25, dpr[0]))
+          }
+          onIncline={() =>
+            setAdaptiveDpr((prev) => Math.min(prev + 0.25, dpr[1]))
+          }
+        />
+
         <Suspense fallback={<Loader />}>
+          {/* FPS tracking for the adaptive performance engine */}
+          <FPSRecorder recordFrame={recordFrame} />
+
           <SceneBackground isNightMode={isNightMode} />
 
           <ambientLight intensity={isNightMode ? 0.35 : 0.7} />
@@ -184,13 +260,20 @@ const Home = () => {
             intensity={isNightMode ? 0.5 : 1}
           />
 
-          <Sky isNightMode={isNightMode} />
+          <Sky
+            isNightMode={isNightMode}
+            maxStars={starCount}
+            maxClouds={cloudCount}
+          />
           <Beach
             scale={beachConfig.scale}
             position={beachConfig.position}
             rotation={beachConfig.rotation}
           />
-          <Ocean isNightMode={isNightMode} />
+          <Ocean
+            isNightMode={isNightMode}
+            segments={oceanSegments}
+          />
         </Suspense>
       </Canvas>
     </div>

@@ -135,6 +135,29 @@
     .mxd-hero-10__wrap {
       background: transparent !important;
     }
+
+    /* ═══════════════════════════════════════ */
+    /*  PERFORMANCE: Safe scroll hints         */
+    /* ═══════════════════════════════════════ */
+
+    /* Smooth scroll fallback for browsers without Lenis */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    /* Respect users who prefer reduced motion */
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
   </style>
 </head>
 
@@ -1760,6 +1783,64 @@
   <script src="js/libs.min.js"></script>
   <script src="js/app.min.js"></script>
   <!-- Load Scripts End -->
+
+  <!-- Performance: Optimize existing Lenis smooth scroll -->
+  <script>
+    (function() {
+      'use strict';
+
+      // Wait for Lenis to be initialized by app.min.js
+      var checkCount = 0;
+      var maxChecks = 50;
+
+      function patchLenis() {
+        // The template creates Lenis on DOMContentLoaded. Access it via the
+        // window.__lenis or by finding the scroll wrapper.
+        // Since app.min.js creates Lenis locally, we hook into ScrollTrigger
+        // which is the bridge between Lenis and GSAP animations.
+        if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.defaults) {
+          // Optimize ScrollTrigger for smoother scroll-linked animations
+          ScrollTrigger.config({
+            limitCallbacks: true,    // Batch callbacks for less overhead
+            ignoreMobileResize: true // Prevents layout thrash on mobile address bar hide
+          });
+        }
+
+        // Pause videos when they scroll out of view (saves GPU bandwidth)
+        var videos = document.querySelectorAll('video[autoplay]');
+        if (videos.length > 0 && 'IntersectionObserver' in window) {
+          var videoObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(function(entry) {
+              var video = entry.target;
+              if (entry.isIntersecting) {
+                if (video.paused) video.play().catch(function() {});
+              } else {
+                if (!video.paused) video.pause();
+              }
+            });
+          }, { threshold: 0.1 });
+
+          videos.forEach(function(v) { videoObserver.observe(v); });
+        }
+
+        // Lazy-load images below the fold
+        var images = document.querySelectorAll('.mxd-project-item img:not([loading])');
+        images.forEach(function(img) {
+          img.setAttribute('loading', 'lazy');
+          img.setAttribute('decoding', 'async');
+        });
+      }
+
+      // Run after DOMContentLoaded + a small delay to ensure app.min.js has initialized
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', function() {
+          setTimeout(patchLenis, 200);
+        });
+      } else {
+        setTimeout(patchLenis, 200);
+      }
+    })();
+  </script>
 
   <script type="module" src="/src/main.jsx"></script>
 </body>

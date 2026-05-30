@@ -2,15 +2,21 @@ import { useRef, useMemo, useEffect } from "react";
 import { useGLTF } from "@react-three/drei";
 import { useFrame } from "@react-three/fiber";
 import * as THREE from "three";
+import MaterialCache from "../engine/MaterialCache";
 
 import skyScene from "../assets/3d/sky.glb";
 
 // ═══════════════════════════════════════════════════════════
+//  MODULE-LEVEL CACHES — survive React re-renders
+// ═══════════════════════════════════════════════════════════
+const _cloudTextureCache = new Map();
+
+// ═══════════════════════════════════════════════════════════
 //  STARS – GPU-driven twinkling (no CPU per-frame loop)
 // ═══════════════════════════════════════════════════════════
-function Stars({ visible }) {
+function Stars({ visible, maxStars = 400 }) {
   const starsRef = useRef();
-  const starCount = 400; // reduced from 700
+  const starCount = maxStars;
 
   const { positions, sizes, starTypes, offsets } = useMemo(() => {
     const positions = new Float32Array(starCount * 3);
@@ -43,74 +49,78 @@ function Stars({ visible }) {
     }
 
     return { positions, sizes, starTypes, offsets };
-  }, []);
+  }, [starCount]);
 
-  // GPU-driven twinkling via uTime uniform — no CPU loop!
+  // GPU-driven twinkling via uTime uniform — cached in MaterialCache
   const material = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      transparent: true,
-      depthWrite: false,
-      depthTest: false,
-      blending: THREE.AdditiveBlending,
-      uniforms: {
-        uTime: { value: 0 },
-      },
-      vertexShader: `
-        attribute float size;
-        attribute float starType;
-        attribute float offset;
-        varying float vStarType;
-        varying float vSize;
-        uniform float uTime;
+    const cache = MaterialCache.getInstance();
+    return cache.getOrCreate("stars-shader", () => {
+      return new THREE.ShaderMaterial({
+        transparent: true,
+        depthWrite: false,
+        depthTest: false,
+        blending: THREE.AdditiveBlending,
+        uniforms: {
+          uTime: { value: 0 },
+        },
+        vertexShader: `
+          attribute float size;
+          attribute float starType;
+          attribute float offset;
+          varying float vStarType;
+          varying float vSize;
+          uniform float uTime;
 
-        void main() {
-          vStarType = starType;
-          // GPU-driven twinkle: compute pulse entirely on GPU
-          float pulse = sin(uTime * (0.8 + mod(float(gl_VertexID), 7.0) * 0.2) + offset) * 0.5 + 0.5;
-          float animSize = size * (0.65 + pulse * 0.65);
-          vSize = animSize;
-          vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
-          gl_PointSize = animSize * (280.0 / -mvPosition.z);
-          gl_Position = projectionMatrix * mvPosition;
-        }
-      `,
-      fragmentShader: `
-        varying float vStarType;
-        varying float vSize;
-
-        void main() {
-          vec2 uv = gl_PointCoord - vec2(0.5);
-          float dist = length(uv);
-          if (dist > 0.5) discard;
-
-          float alpha = 0.0;
-          vec3 color = vec3(1.0);
-
-          if (vStarType > 0.5) {
-            float ax = abs(uv.x);
-            float ay = abs(uv.y);
-
-            float vertical = smoothstep(0.05, 0.0, ax) * smoothstep(0.5, 0.0, ay);
-            float horizontal = smoothstep(0.05, 0.0, ay) * smoothstep(0.5, 0.0, ax);
-            float core = smoothstep(0.15, 0.0, dist);
-            float glow = smoothstep(0.5, 0.0, dist) * 0.35;
-
-            alpha = clamp(core + vertical * 0.9 + horizontal * 0.9 + glow, 0.0, 1.0);
-            color = mix(vec3(0.75, 0.88, 1.0), vec3(1.0), core);
-          } else {
-            float glow = 1.0 - smoothstep(0.0, 0.5, dist);
-            glow = pow(glow, 2.5);
-            alpha = glow;
-            color = vec3(0.9, 0.95, 1.0);
+          void main() {
+            vStarType = starType;
+            // GPU-driven twinkle: compute pulse entirely on GPU
+            float pulse = sin(uTime * (0.8 + mod(float(gl_VertexID), 7.0) * 0.2) + offset) * 0.5 + 0.5;
+            float animSize = size * (0.65 + pulse * 0.65);
+            vSize = animSize;
+            vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+            gl_PointSize = animSize * (280.0 / -mvPosition.z);
+            gl_Position = projectionMatrix * mvPosition;
           }
+        `,
+        fragmentShader: `
+          varying float vStarType;
+          varying float vSize;
 
-          gl_FragColor = vec4(color, alpha);
-        }
-      `,
+          void main() {
+            vec2 uv = gl_PointCoord - vec2(0.5);
+            float dist = length(uv);
+            if (dist > 0.5) discard;
+
+            float alpha = 0.0;
+            vec3 color = vec3(1.0);
+
+            if (vStarType > 0.5) {
+              float ax = abs(uv.x);
+              float ay = abs(uv.y);
+
+              float vertical = smoothstep(0.05, 0.0, ax) * smoothstep(0.5, 0.0, ay);
+              float horizontal = smoothstep(0.05, 0.0, ay) * smoothstep(0.5, 0.0, ax);
+              float core = smoothstep(0.15, 0.0, dist);
+              float glow = smoothstep(0.5, 0.0, dist) * 0.35;
+
+              alpha = clamp(core + vertical * 0.9 + horizontal * 0.9 + glow, 0.0, 1.0);
+              color = mix(vec3(0.75, 0.88, 1.0), vec3(1.0), core);
+            } else {
+              float glow = 1.0 - smoothstep(0.0, 0.5, dist);
+              glow = pow(glow, 2.5);
+              alpha = glow;
+              color = vec3(0.9, 0.95, 1.0);
+            }
+
+            gl_FragColor = vec4(color, alpha);
+          }
+        `,
+      });
     });
   }, []);
 
   // Only update the time uniform — no buffer uploads!
+  // Early-exit when not visible to save CPU
   useFrame(({ clock }) => {
     if (!starsRef.current || !visible) return;
     material.uniforms.uTime.value = clock.getElapsedTime();
@@ -137,47 +147,50 @@ function NightSkyDome({ visible }) {
   const domeRef = useRef();
 
   const domeMaterial = useMemo(() => {
-    return new THREE.ShaderMaterial({
-      uniforms: {
-        uTopColor: { value: new THREE.Color("#050a1a") },
-        uMidColor: { value: new THREE.Color("#0a1e5c") },
-        uBottomColor: { value: new THREE.Color("#1a5fb4") },
-        uHorizonColor: { value: new THREE.Color("#4da6e8") },
-      },
-      vertexShader: `
-        varying vec3 vWorldPos;
-        varying vec3 vNormal;
-        void main() {
-          vWorldPos = (modelMatrix * vec4(position, 1.0)).xyz;
-          vNormal = normalize(normalMatrix * normal);
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-        }
-      `,
-      fragmentShader: `
-        uniform vec3 uTopColor;
-        uniform vec3 uMidColor;
-        uniform vec3 uBottomColor;
-        uniform vec3 uHorizonColor;
-        varying vec3 vWorldPos;
-        
-        void main() {
-          float h = normalize(vWorldPos).y;
-          h = clamp(h, 0.0, 1.0);
-          
-          vec3 color;
-          if (h > 0.6) {
-            color = mix(uMidColor, uTopColor, smoothstep(0.6, 1.0, h));
-          } else if (h > 0.2) {
-            color = mix(uBottomColor, uMidColor, smoothstep(0.2, 0.6, h));
-          } else {
-            color = mix(uHorizonColor, uBottomColor, smoothstep(0.0, 0.2, h));
+    const cache = MaterialCache.getInstance();
+    return cache.getOrCreate("night-sky-dome", () => {
+      return new THREE.ShaderMaterial({
+        uniforms: {
+          uTopColor: { value: new THREE.Color("#050a1a") },
+          uMidColor: { value: new THREE.Color("#0a1e5c") },
+          uBottomColor: { value: new THREE.Color("#1a5fb4") },
+          uHorizonColor: { value: new THREE.Color("#4da6e8") },
+        },
+        vertexShader: `
+          varying vec3 vWorldPos;
+          varying vec3 vNormal;
+          void main() {
+            vWorldPos = (modelMatrix * vec4(position, 1.0)).xyz;
+            vNormal = normalize(normalMatrix * normal);
+            gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
           }
+        `,
+        fragmentShader: `
+          uniform vec3 uTopColor;
+          uniform vec3 uMidColor;
+          uniform vec3 uBottomColor;
+          uniform vec3 uHorizonColor;
+          varying vec3 vWorldPos;
           
-          gl_FragColor = vec4(color, 1.0);
-        }
-      `,
-      side: THREE.BackSide,
-      depthWrite: false,
+          void main() {
+            float h = normalize(vWorldPos).y;
+            h = clamp(h, 0.0, 1.0);
+            
+            vec3 color;
+            if (h > 0.6) {
+              color = mix(uMidColor, uTopColor, smoothstep(0.6, 1.0, h));
+            } else if (h > 0.2) {
+              color = mix(uBottomColor, uMidColor, smoothstep(0.2, 0.6, h));
+            } else {
+              color = mix(uHorizonColor, uBottomColor, smoothstep(0.0, 0.2, h));
+            }
+            
+            gl_FragColor = vec4(color, 1.0);
+          }
+        `,
+        side: THREE.BackSide,
+        depthWrite: false,
+      });
     });
   }, []);
 
@@ -192,10 +205,15 @@ function NightSkyDome({ visible }) {
 }
 
 // ═══════════════════════════════════════════════════════════
-//  CLOUDS – billboard clouds with canvas textures
+//  CLOUDS – billboard clouds with cached canvas textures
 //  Single useFrame for ALL clouds (merged callbacks)
 // ═══════════════════════════════════════════════════════════
 function makeCloudTexture(seed = 0) {
+  // Return cached texture if it exists
+  if (_cloudTextureCache.has(seed)) {
+    return _cloudTextureCache.get(seed);
+  }
+
   const W = 512, H = 320;
   const canvas = document.createElement("canvas");
   canvas.width = W; canvas.height = H;
@@ -235,11 +253,13 @@ function makeCloudTexture(seed = 0) {
   ctx.fillRect(0, 0, W, H);
   ctx.globalCompositeOperation = "source-over";
 
-  return new THREE.CanvasTexture(canvas);
+  const texture = new THREE.CanvasTexture(canvas);
+  _cloudTextureCache.set(seed, texture);
+  return texture;
 }
 
-// Cloud data for all instances (no individual components with useFrame)
-const CLOUD_CONFIGS = [
+// Full cloud config — sliced at runtime based on maxClouds
+const ALL_CLOUD_CONFIGS = [
   // LEFT SIDE
   { pos: [-45, 18, -25], w: 85, h: 55, seed: 1 },
   { pos: [-60, 6, -35], w: 75, h: 45, seed: 5 },
@@ -256,7 +276,7 @@ const CLOUD_CONFIGS = [
   { pos: [20, 4, -60], w: 60, h: 25, seed: 11 },
 ];
 
-const CLOUD_OPACITIES = [
+const ALL_CLOUD_OPACITIES = [
   // LEFT
   1.0, 0.82, 0.65, 0.52,
   // RIGHT
@@ -265,30 +285,33 @@ const CLOUD_OPACITIES = [
   0.38, 0.32, 0.38,
 ];
 
-function Clouds({ isNightMode }) {
+function Clouds({ isNightMode, maxClouds = 11 }) {
   const cloudRefs = useRef([]);
   const baseOp = isNightMode ? 0.84 : 0.95;
 
-  // Create textures and materials once
+  // Slice configs based on quality tier
+  const activeCount = Math.min(maxClouds, ALL_CLOUD_CONFIGS.length);
+
+  // Create textures and materials once (textures are cached at module level)
   const cloudData = useMemo(() => {
-    return CLOUD_CONFIGS.map((c, i) => {
+    return ALL_CLOUD_CONFIGS.slice(0, activeCount).map((c, i) => {
       const texture = makeCloudTexture(c.seed);
       const material = new THREE.MeshBasicMaterial({
         map: texture,
         transparent: true,
-        opacity: baseOp * CLOUD_OPACITIES[i],
+        opacity: 0.95 * ALL_CLOUD_OPACITIES[i],
         depthWrite: false,
         side: THREE.DoubleSide,
         blending: THREE.NormalBlending,
       });
       return { ...c, material };
     });
-  }, []); // only create once
+  }, [activeCount]);
 
   // Update opacity when mode changes (without recreating materials)
   useEffect(() => {
     cloudData.forEach((c, i) => {
-      c.material.opacity = baseOp * CLOUD_OPACITIES[i];
+      c.material.opacity = baseOp * ALL_CLOUD_OPACITIES[i];
     });
   }, [isNightMode, baseOp, cloudData]);
 
@@ -317,10 +340,16 @@ function Clouds({ isNightMode }) {
 }
 
 // ═══════════════════════════════════════════════════════════
-//  MOON – soft glow disc (from third block)
+//  MOON – soft glow disc
 // ═══════════════════════════════════════════════════════════
 function Moon({ visible }) {
   const tex = useMemo(() => {
+    const cache = MaterialCache.getInstance();
+    // Use material cache for the moon texture to prevent recreation
+    if (cache.has("moon-texture-holder")) {
+      return cache.get("moon-texture-holder")._moonTex;
+    }
+
     const c = document.createElement("canvas");
     c.width = c.height = 128;
     const ctx = c.getContext("2d");
@@ -332,17 +361,33 @@ function Moon({ visible }) {
     g.addColorStop(1.0, "rgba(80,120,240,0.0)");
     ctx.beginPath(); ctx.arc(64, 64, 64, 0, Math.PI * 2);
     ctx.fillStyle = g; ctx.fill();
-    return new THREE.CanvasTexture(c);
+
+    const texture = new THREE.CanvasTexture(c);
+    // Store in a dummy material entry for caching
+    const holder = new THREE.MeshBasicMaterial();
+    holder._moonTex = texture;
+    cache.getOrCreate("moon-texture-holder", () => holder);
+    return texture;
   }, []);
 
+  const moonMaterial = useMemo(() => {
+    const cache = MaterialCache.getInstance();
+    return cache.getOrCreate("moon-material", () => {
+      return new THREE.MeshBasicMaterial({
+        map: tex,
+        transparent: true,
+        depthWrite: false,
+        depthTest: false,
+        blending: THREE.AdditiveBlending,
+      });
+    });
+  }, [tex]);
+
   if (!visible) return null;
+
   return (
-    <mesh position={[20, 27, -50]} renderOrder={998}>
+    <mesh position={[20, 27, -50]} renderOrder={998} material={moonMaterial}>
       <planeGeometry args={[7, 7]} />
-      <meshBasicMaterial
-        map={tex} transparent depthWrite={false} depthTest={false}
-        blending={THREE.AdditiveBlending}
-      />
     </mesh>
   );
 }
@@ -350,7 +395,7 @@ function Moon({ visible }) {
 // ═══════════════════════════════════════════════════════════
 //  MAIN SKY COMPONENT
 // ═══════════════════════════════════════════════════════════
-export function Sky({ isNightMode = true }) {
+export function Sky({ isNightMode = true, maxStars = 400, maxClouds = 11 }) {
   const sky = useGLTF(skyScene);
   const skyRef = useRef();
 
@@ -365,22 +410,28 @@ export function Sky({ isNightMode = true }) {
     return mat;
   }, [sky.scene]);
 
-  // Night-mode material (created once, reused)
+  // Night-mode material (created once via cache, reused)
   const nightMaterial = useMemo(() => {
     if (!originalMaterial) return null;
-    const mat = originalMaterial.clone();
-    mat.color.set(new THREE.Color(0.2, 0.25, 0.5));
-    mat.emissive = new THREE.Color(0.02, 0.04, 0.08);
-    mat.emissiveIntensity = 0.5;
-    mat.transparent = true;
-    mat.opacity = 0.85;
-    return mat;
+    const cache = MaterialCache.getInstance();
+    return cache.getOrCreate("sky-night-material", () => {
+      const mat = originalMaterial.clone();
+      mat.color.set(new THREE.Color(0.2, 0.25, 0.5));
+      mat.emissive = new THREE.Color(0.02, 0.04, 0.08);
+      mat.emissiveIntensity = 0.5;
+      mat.transparent = true;
+      mat.opacity = 0.85;
+      return mat;
+    });
   }, [originalMaterial]);
 
-  // Day-mode material (created once, reused)
+  // Day-mode material (created once via cache, reused)
   const dayMaterial = useMemo(() => {
     if (!originalMaterial) return null;
-    return originalMaterial.clone();
+    const cache = MaterialCache.getInstance();
+    return cache.getOrCreate("sky-day-material", () => {
+      return originalMaterial.clone();
+    });
   }, [originalMaterial]);
 
   // Switch material reference — no cloning on every toggle!
@@ -418,10 +469,10 @@ export function Sky({ isNightMode = true }) {
       </mesh>
 
       {/* Billboard clouds (always present, opacity changes with night mode) */}
-      <Clouds isNightMode={isNightMode} />
+      <Clouds isNightMode={isNightMode} maxClouds={maxClouds} />
 
       {/* Stars – only at night */}
-      <Stars visible={isNightMode} />
+      <Stars visible={isNightMode} maxStars={maxStars} />
 
       {/* Moon – only at night */}
       <Moon visible={isNightMode} />

@@ -238,3 +238,35 @@
   0% { transform: translateX(0); }
   100% { transform: translateX(-30px); }
 }
+
+/* ═══════════════════════════════════════════════════════════ */
+/*  PERFORMANCE: Safe GPU Compositing Hints                   */
+/* ═══════════════════════════════════════════════════════════ */
+
+/* Promote the 3D container to its own GPU compositing layer.
+   Use contain: paint (NOT strict/layout) — strict breaks
+   absolute positioning of the canvas inside the hero section. */
+.home-container {
+  contain: paint;
+}
+
+/* Isolate canvas paint operations without breaking layout */
+.home-canvas {
+  contain: paint;
+}
+
+/* Reduced motion: disable all loader animations */
+@media (prefers-reduced-motion: reduce) {
+  .loader-ring-1,
+  .loader-ring-2,
+  .loader-wave-surface,
+  .loader-bubble,
+  .loader-fish,
+  .loader-anchor,
+  .loader-sparkle,
+  .loader-text,
+  .loader-dot {
+    animation: none !important;
+  }
+}
+

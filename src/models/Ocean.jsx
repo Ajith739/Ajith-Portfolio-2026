@@ -1,17 +1,9 @@
-import React, { useRef, useMemo } from "react";
+import React, { useRef, useMemo, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
+import MaterialCache from "../engine/MaterialCache";
 
-/* ─── helper: detect device tier ─── */
-function getDeviceTier() {
-  if (typeof window === "undefined") return "high";
-  const w = window.innerWidth;
-  if (w < 768) return "low";
-  if (w < 1280) return "medium";
-  return "high";
-}
-
-/* ─── vertex shader ─── */
+/* ─── vertex shader (supports variable wave count via #define) ─── */
 const vertexShader = /* glsl */ `
 uniform float uTime;
 uniform float uAmplitude;
@@ -44,12 +36,21 @@ void main() {
   vec3 B = vec3(0.0, 1.0, 0.0);
   vec3 pos = position;
 
+  // Primary waves (always rendered)
   pos += gerstner(vec4( 1.0,  0.5,  0.15, 80.0), position, T, B);
   pos += gerstner(vec4( 0.7,  0.9,  0.12, 45.0), position, T, B);
   pos += gerstner(vec4(-0.3,  1.0,  0.08, 25.0), position, T, B);
+
+  // Detail waves (conditionally compiled)
+  #if WAVE_COUNT > 3
   pos += gerstner(vec4( 0.9, -0.4,  0.06, 15.0), position, T, B);
+  #endif
+  #if WAVE_COUNT > 4
   pos += gerstner(vec4(-0.5,  0.6,  0.04,  9.0), position, T, B);
+  #endif
+  #if WAVE_COUNT > 5
   pos += gerstner(vec4( 0.4, -0.8,  0.02,  5.0), position, T, B);
+  #endif
 
   pos.z *= uAmplitude;
   vHeight = pos.z;
@@ -174,77 +175,100 @@ void main(){
 }
 `;
 
+// ─── Color palettes: created once, never recreated ───
+const DAY_COLORS = {
+  shallow:  new THREE.Color("#1e90ff"),
+  mid:      new THREE.Color("#0077cc"),
+  deep:     new THREE.Color("#003d6b"),
+  foam:     new THREE.Color("#e8f4ff"),
+  sun:      new THREE.Color("#fffbe6"),
+  sky:      new THREE.Color("#4db8ff"),
+  horizon:  new THREE.Color("#7dd3fc"),
+};
+
+const NIGHT_COLORS = {
+  shallow:  new THREE.Color("#0a5ca8"),
+  mid:      new THREE.Color("#054080"),
+  deep:     new THREE.Color("#001833"),
+  foam:     new THREE.Color("#6699bb"),
+  sun:      new THREE.Color("#556688"),
+  sky:      new THREE.Color("#0a1e5c"),
+  horizon:  new THREE.Color("#0f3060"),
+};
+
 /* ═══════════════════════════════════════════ */
 /*               <Ocean /> component           */
 /* ═══════════════════════════════════════════ */
-const Ocean = ({ isNightMode = false, waterLevel = -10 }) => {
+const Ocean = ({ isNightMode = false, waterLevel = -10, segments: segmentsProp }) => {
   const meshRef = useRef();
   const { camera } = useThree();
 
+  // Use prop-based segments from performance engine, fallback to auto-detect
   const segments = useMemo(() => {
-    const tier = getDeviceTier();
-    switch (tier) {
-      case "low":   return 48;
-      case "medium": return 80;
-      default:      return 128;
-    }
-  }, []);
+    if (segmentsProp) return segmentsProp;
+    if (typeof window === "undefined") return 128;
+    const w = window.innerWidth;
+    if (w < 768) return 48;
+    if (w < 1280) return 80;
+    return 128;
+  }, [segmentsProp]);
 
+  // Determine wave count based on segments (proxy for quality)
+  const waveCount = useMemo(() => {
+    if (segments <= 48) return 3;
+    if (segments <= 80) return 4;
+    return 6;
+  }, [segments]);
+
+  // Create the material ONCE — never recreate on theme toggle.
+  // Instead, update uniform values when isNightMode changes.
   const material = useMemo(() => {
-    // Vibrant, beautiful ocean colors inspired by reference images
-    const nightFactor = isNightMode ? 1.0 : 0.0;
+    const cacheKey = `ocean-material-w${waveCount}`;
+    const cache = MaterialCache.getInstance();
 
-    // Day: vibrant cerulean/cobalt blue  |  Night: deep navy
-    const shallow = isNightMode
-      ? new THREE.Color("#0a5ca8")
-      : new THREE.Color("#1e90ff");  // Bright dodger blue
+    return cache.getOrCreate(cacheKey, () => {
+      // Inject wave count as preprocessor define
+      const defines = `#define WAVE_COUNT ${waveCount}\n`;
 
-    const mid = isNightMode
-      ? new THREE.Color("#054080")
-      : new THREE.Color("#0077cc");  // Rich ocean blue
-
-    const deep = isNightMode
-      ? new THREE.Color("#001833")
-      : new THREE.Color("#003d6b");  // Deep ocean blue
-
-    const foam = isNightMode
-      ? new THREE.Color("#6699bb")
-      : new THREE.Color("#e8f4ff");  // Bright white-blue foam
-
-    const sun = isNightMode
-      ? new THREE.Color("#556688")
-      : new THREE.Color("#fffbe6");  // Warm golden sun
-
-    const sky = isNightMode
-      ? new THREE.Color("#0a1e5c")
-      : new THREE.Color("#4db8ff");  // Bright sky blue
-
-    const horizon = isNightMode
-      ? new THREE.Color("#0f3060")
-      : new THREE.Color("#7dd3fc");  // Light sky horizon
-
-    return new THREE.ShaderMaterial({
-      uniforms: {
-        uTime:         { value: 0 },
-        uAmplitude:    { value: 1.0 },
-        uShallowColor: { value: shallow },
-        uMidColor:     { value: mid },
-        uDeepColor:    { value: deep },
-        uFoamColor:    { value: foam },
-        uSunDir:       { value: new THREE.Vector3(0.5, 0.8, 0.3).normalize() },
-        uSunColor:     { value: sun },
-        uCamPos:       { value: new THREE.Vector3() },
-        uSkyColor:     { value: sky },
-        uHorizonColor: { value: horizon },
-        uIsNight:      { value: nightFactor },
-      },
-      vertexShader,
-      fragmentShader,
-      transparent: true,
-      side: THREE.DoubleSide,
-      depthWrite: false,
+      return new THREE.ShaderMaterial({
+        uniforms: {
+          uTime:         { value: 0 },
+          uAmplitude:    { value: 1.0 },
+          uShallowColor: { value: DAY_COLORS.shallow.clone() },
+          uMidColor:     { value: DAY_COLORS.mid.clone() },
+          uDeepColor:    { value: DAY_COLORS.deep.clone() },
+          uFoamColor:    { value: DAY_COLORS.foam.clone() },
+          uSunDir:       { value: new THREE.Vector3(0.5, 0.8, 0.3).normalize() },
+          uSunColor:     { value: DAY_COLORS.sun.clone() },
+          uCamPos:       { value: new THREE.Vector3() },
+          uSkyColor:     { value: DAY_COLORS.sky.clone() },
+          uHorizonColor: { value: DAY_COLORS.horizon.clone() },
+          uIsNight:      { value: 0.0 },
+        },
+        vertexShader: defines + vertexShader,
+        fragmentShader,
+        transparent: true,
+        side: THREE.DoubleSide,
+        depthWrite: false,
+      });
     });
-  }, [isNightMode]);
+  }, [waveCount]);
+
+  // When night mode changes, lerp uniforms — NO material recreation
+  useEffect(() => {
+    if (!material.uniforms) return;
+    const u = material.uniforms;
+    const palette = isNightMode ? NIGHT_COLORS : DAY_COLORS;
+
+    u.uShallowColor.value.copy(palette.shallow);
+    u.uMidColor.value.copy(palette.mid);
+    u.uDeepColor.value.copy(palette.deep);
+    u.uFoamColor.value.copy(palette.foam);
+    u.uSunColor.value.copy(palette.sun);
+    u.uSkyColor.value.copy(palette.sky);
+    u.uHorizonColor.value.copy(palette.horizon);
+    u.uIsNight.value = isNightMode ? 1.0 : 0.0;
+  }, [isNightMode, material]);
 
   useFrame((state) => {
     if (!meshRef.current) return;
