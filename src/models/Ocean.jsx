@@ -271,7 +271,7 @@ const Ocean = ({ isNightMode = false, waterLevel = -10, segments: segmentsProp }
   }, [isNightMode, material]);
 
   useFrame((state) => {
-    if (!meshRef.current) return;
+    if (!meshRef.current || !meshRef.current.visible) return;
     const mat = meshRef.current.material;
     mat.uniforms.uTime.value = state.clock.elapsedTime;
     mat.uniforms.uCamPos.value.copy(camera.position);

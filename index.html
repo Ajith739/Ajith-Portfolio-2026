@@ -148,6 +148,7 @@
       html {
         scroll-behavior: auto;
       }
+
       *,
       *::before,
       *::after {
@@ -156,6 +157,60 @@
         transition-duration: 0.01ms !important;
       }
     }
+
+    /* ═══════════════════════════════════════ */
+    /*  FIX: Scroll lag in sticky sections     */
+    /* ═══════════════════════════════════════ */
+
+    /* Fix "My Approach" sticky images section — promote images for
+       GPU compositing without creating stacking context conflicts.
+       DO NOT use will-change:transform here — ScrollTrigger manages
+       transforms on sticky elements internally. */
+    .mxd-dv-sticky-img__images {
+      contain: paint;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    .mxd-dv-sticky-img__content {
+      contain: paint;
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    /* Fix "My Expertise" perspective list — use transform3d(0,0,0)
+       hack to promote to GPU layer without conflicting with GSAP */
+    .mxd-perspective-list__inner {
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    /* Isolate blur layers from scrolling context — these 8 layers are expensive */
+    .blur-container {
+      contain: strict;
+      pointer-events: none;
+    }
+
+    .blur-layer {
+      pointer-events: none;
+    }
+
+    /* DO NOT put will-change or contain on .pinned-section__inner!
+       ScrollTrigger manages its own transforms for pinned elements.
+       Adding will-change:transform creates a new stacking context
+       that breaks pin offset calculations. */
+
+    /* Capabilities list items — GPU promote without will-change */
+    .mxd-cpb-list__inner {
+      transform: translate3d(0, 0, 0);
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+
+    /* DO NOT use content-visibility:auto on sections that contain
+       ScrollTrigger pins! It changes rendered heights which causes
+       ScrollTrigger to miscalculate pin start/end positions. */
   </style>
 </head>
 
@@ -429,7 +484,7 @@
               <div class="mxd-hero-10__data-wrap mxd-grid-item">
                 <div class="mxd-hero__mark loading-fade">
                   <span class="mark-icon"></span>
-                  <span class="mark-text">Available for freelance</span>
+                  <span class="mark-text">Available for Full Time Work</span>
                 </div>
                 <div class="mxd-hero-10__descr">
                   <p class="t-bold loading-split">I am Ajith Kumar V. <span>A Full-Stack B.Sc. Computer Science
@@ -1784,54 +1839,81 @@
 
   <!-- Performance: Optimize existing Lenis smooth scroll -->
   <script>
-    (function() {
+    (function () {
       'use strict';
 
-      // Wait for Lenis to be initialized by app.min.js
-      var checkCount = 0;
-      var maxChecks = 50;
-
       function patchLenis() {
-        // The template creates Lenis on DOMContentLoaded. Access it via the
-        // window.__lenis or by finding the scroll wrapper.
-        // Since app.min.js creates Lenis locally, we hook into ScrollTrigger
-        // which is the bridge between Lenis and GSAP animations.
+        // Optimize ScrollTrigger for smoother scroll-linked animations
         if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.defaults) {
-          // Optimize ScrollTrigger for smoother scroll-linked animations
           ScrollTrigger.config({
             limitCallbacks: true,    // Batch callbacks for less overhead
             ignoreMobileResize: true // Prevents layout thrash on mobile address bar hide
+          });
+
+          // FIX: Recalculate pin positions after 3D canvas + assets finish loading.
+          // The 3D canvas renders into #root which sits inside the hero section.
+          // When it finishes loading (Suspense resolves), it can shift layout slightly.
+          // A delayed refresh ensures all pin start/end measurements are accurate.
+          setTimeout(function () {
+            ScrollTrigger.refresh(true);
+          }, 1500);
+
+          // Another refresh after everything is fully settled
+          setTimeout(function () {
+            ScrollTrigger.refresh(true);
+          }, 4000);
+
+          // FIX: Refresh ScrollTrigger on viewport resize (debounced).
+          // This fixes the "My Approach" and "My Expertise" sections sticking
+          // when testing responsive modes or resizing the browser window.
+          var resizeTimer = null;
+          window.addEventListener('resize', function () {
+            clearTimeout(resizeTimer);
+            resizeTimer = setTimeout(function () {
+              if (typeof ScrollTrigger !== 'undefined') {
+                ScrollTrigger.refresh(true);
+              }
+            }, 300);
           });
         }
 
         // Pause videos when they scroll out of view (saves GPU bandwidth)
         var videos = document.querySelectorAll('video[autoplay]');
         if (videos.length > 0 && 'IntersectionObserver' in window) {
-          var videoObserver = new IntersectionObserver(function(entries) {
-            entries.forEach(function(entry) {
+          var videoObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
               var video = entry.target;
               if (entry.isIntersecting) {
-                if (video.paused) video.play().catch(function() {});
+                if (video.paused) video.play().catch(function () { });
               } else {
                 if (!video.paused) video.pause();
               }
             });
           }, { threshold: 0.1 });
 
-          videos.forEach(function(v) { videoObserver.observe(v); });
+          videos.forEach(function (v) { videoObserver.observe(v); });
         }
 
-        // Lazy-load images below the fold
-        var images = document.querySelectorAll('.mxd-project-item img:not([loading])');
-        images.forEach(function(img) {
-          img.setAttribute('loading', 'lazy');
-          img.setAttribute('decoding', 'async');
-        });
+        // Lazy-load images below the fold using requestIdleCallback
+        var lazyLoadImages = function () {
+          var images = document.querySelectorAll('.mxd-project-item img:not([loading]), .mxd-blog-item img:not([loading])');
+          images.forEach(function (img) {
+            img.setAttribute('loading', 'lazy');
+            img.setAttribute('decoding', 'async');
+          });
+        };
+
+        // Use requestIdleCallback if available, otherwise setTimeout
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(lazyLoadImages, { timeout: 1000 });
+        } else {
+          setTimeout(lazyLoadImages, 100);
+        }
       }
 
       // Run after DOMContentLoaded + a small delay to ensure app.min.js has initialized
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
           setTimeout(patchLenis, 200);
         });
       } else {

@@ -1,4 +1,4 @@
-import { Suspense, useState, useEffect, useCallback, useRef } from "react";
+import { Suspense, useState, useEffect, useCallback, useRef, useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { useThree, useFrame } from "@react-three/fiber";
@@ -70,6 +70,11 @@ function FPSRecorder({ recordFrame }) {
 const Home = () => {
   const [isNightMode, setIsNightMode] = useState(() => getCurrentTheme());
   const [isVisible, setIsVisible] = useState(true);
+  // Delay 3D rendering start until GSAP ScrollTrigger has finished
+  // initializing and measuring pin positions. Without this delay,
+  // the heavy 3D scene competes for GPU time during page load,
+  // causing "My Approach" and "My Expertise" to miscalculate pins.
+  const [isReady, setIsReady] = useState(false);
   const containerRef = useRef(null);
 
   // Adaptive performance from engine
@@ -91,45 +96,82 @@ const Home = () => {
     rotation: [0, Math.PI * 0.85, 0],
   });
 
+  // Debounced resize handler — prevents layout thrashing
+  const resizeTimeout = useRef(null);
   const adjustModelsForScreenSize = useCallback(() => {
-    let bScale, bPosition, bRotation;
+    clearTimeout(resizeTimeout.current);
+    resizeTimeout.current = setTimeout(() => {
+      let bScale, bPosition, bRotation;
 
-    if (window.innerWidth < 768) {
-      bScale = [1.2, 1.2, 1.2];
-      bPosition = [0, -10, -65];
-      bRotation = [0, Math.PI * 0.85, 0];
-    } else if (window.innerWidth < 1280) {
-      bScale = [1.4, 1.4, 1.4];
-      bPosition = [0, -10, -75];
-      bRotation = [0, Math.PI * 0.85, 0];
-    } else {
-      bScale = [1.5, 1.5, 1.5];
-      bPosition = [0, -10, -80];
-      bRotation = [0, Math.PI * 0.85, 0];
-    }
+      if (window.innerWidth < 768) {
+        bScale = [1.2, 1.2, 1.2];
+        bPosition = [0, -10, -65];
+        bRotation = [0, Math.PI * 0.85, 0];
+      } else if (window.innerWidth < 1280) {
+        bScale = [1.4, 1.4, 1.4];
+        bPosition = [0, -10, -75];
+        bRotation = [0, Math.PI * 0.85, 0];
+      } else {
+        bScale = [1.5, 1.5, 1.5];
+        bPosition = [0, -10, -80];
+        bRotation = [0, Math.PI * 0.85, 0];
+      }
 
-    setBeachConfig({ scale: bScale, position: bPosition, rotation: bRotation });
+      setBeachConfig({ scale: bScale, position: bPosition, rotation: bRotation });
+    }, 150);
   }, []);
 
   useEffect(() => {
     adjustModelsForScreenSize();
     window.addEventListener("resize", adjustModelsForScreenSize);
-    return () => window.removeEventListener("resize", adjustModelsForScreenSize);
+    return () => {
+      window.removeEventListener("resize", adjustModelsForScreenSize);
+      clearTimeout(resizeTimeout.current);
+    };
   }, [adjustModelsForScreenSize]);
 
-  // ─── Intersection Observer: pause rendering when not visible ───
+  // ─── Intersection Observer: pause rendering when hero is scrolled out ───
+  // Uses multiple thresholds so the callback fires at meaningful visibility points.
+  // Pauses the 3D frame loop once less than ~8% of the hero section is visible,
+  // freeing the GPU/CPU for GSAP ScrollTrigger animations below the fold.
   useEffect(() => {
     if (!containerRef.current) return;
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        setIsVisible(entry.isIntersecting);
+        setIsVisible(entry.intersectionRatio > 0.08);
       },
-      { threshold: 0.05 }
+      { threshold: [0, 0.08, 0.25, 0.5, 1.0] }
     );
 
     observer.observe(containerRef.current);
     return () => observer.disconnect();
+  }, []);
+
+  // ─── Delayed startup: let GSAP ScrollTrigger initialize first ───
+  // The template's app.min.js sets up ScrollTrigger pins during/after
+  // the loader animation (~1.5s). If the 3D canvas is rendering during
+  // this time, it steals GPU time and causes pin miscalculations.
+  // Also pause briefly on resize so ScrollTrigger.refresh() can work.
+  useEffect(() => {
+    const startupTimer = setTimeout(() => {
+      setIsReady(true);
+    }, 2000);
+
+    // Pause canvas briefly during resize so ScrollTrigger can refresh
+    const handleResize = () => {
+      setIsReady(false);
+      clearTimeout(resizeTimeout.current);
+      resizeTimeout.current = setTimeout(() => {
+        setIsReady(true);
+      }, 400);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      clearTimeout(startupTimer);
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   // ─── Theme sync ───
@@ -213,7 +255,7 @@ const Home = () => {
         className="home-canvas"
         camera={{ near: 0.1, far: 1000, position: [0, 2, 25], fov: 60 }}
         dpr={adaptiveDpr}
-        frameloop={isVisible ? "always" : "never"}
+        frameloop={isReady && isVisible ? "always" : "never"}
         gl={{
           powerPreference: "high-performance",
           antialias: false,

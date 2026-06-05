@@ -268,5 +268,23 @@
   .loader-dot {
     animation: none !important;
   }
+
+  /* Also reduce 3D rendering impact */
+  .home-container {
+    opacity: 0.8;
+  }
 }
 
+/* ═══════════════════════════════════════════════════════════ */
+/*  PERFORMANCE: Additional GPU Compositing Optimizations     */
+/* ═══════════════════════════════════════════════════════════ */
+
+/* Promote the 3D container for GPU layer compositing */
+.home-container {
+  will-change: transform;
+}
+
+/* Canvas repaints frequently — hint to the browser */
+.home-canvas {
+  will-change: contents;
+}

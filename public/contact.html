@@ -51,6 +51,84 @@
   <style>
       .hero-10-headline__wrap div { overflow: visible !important; }
       .char-mask { overflow: visible !important; }
+
+      /* ═══════════════════════════════════════ */
+      /*  FIX: Contact form responsiveness      */
+      /* ═══════════════════════════════════════ */
+
+      /* Ensure blur layers never block interaction on ANY page */
+      .blur-container,
+      .blur-layer {
+        pointer-events: none !important;
+      }
+
+      /* Fix form touch responsiveness — eliminates 300ms tap delay */
+      .contact-form input,
+      .contact-form textarea,
+      .contact-form button,
+      .contact-form select {
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+        position: relative;
+        z-index: 5;
+      }
+
+      /* Ensure form container is above ALL decorative layers */
+      .mxd-form-container {
+        position: relative;
+        z-index: 10;
+      }
+
+      /* Ensure the entire contact block stacks above blur */
+      .mxd-block.contact {
+        position: relative;
+        z-index: 10;
+      }
+
+      /* Inner headline content must stack above blur */
+      .inner-headline__content {
+        position: relative;
+        z-index: 5;
+      }
+
+      /* Fix tablet layout (768–991px) where form can clip */
+      @media (min-width: 768px) and (max-width: 991px) {
+        .inner-headline__content.has-medium-title .split-caption-title {
+          padding-top: 2rem;
+        }
+
+        .contact-form .col-md-6 {
+          flex: 0 0 50%;
+          max-width: 50%;
+        }
+
+        /* Ensure textarea is full width on tablets */
+        .contact-form textarea {
+          min-height: 120px;
+        }
+      }
+
+      /* Fix small mobile — stack all fields vertically */
+      @media (max-width: 767px) {
+        .inner-headline__content.has-medium-title {
+          flex-direction: column;
+        }
+
+        .contact-form .col-md-6 {
+          flex: 0 0 100%;
+          max-width: 100%;
+        }
+
+        .contact-form textarea {
+          min-height: 100px;
+        }
+
+        /* Ensure submit button is fully tappable */
+        .contact-form button[type="submit"] {
+          min-height: 48px;
+          min-width: 48px;
+        }
+      }
     </style>
   </head>
 
@@ -247,7 +325,7 @@
                     <!-- <i class="ph-fill ph-heart t-additional"></i> -->
                     by
                     <a href="https://1.envato.market/EKA9WD" target="_blank">
-                      <span class="mxd-scramble">Mix_Design</span>
+                      <span class="mxd-scramble">Ajith Kumar v</span>
                     </a>
                   </p>
                 </div>
