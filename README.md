@@ -128,7 +128,7 @@ Portfolio/
 ## Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/portfolio.git
+git clone https://github.com/Ajith739/Ajith-Portfolio-2026.git
 ```
 
 ## Navigate To Project

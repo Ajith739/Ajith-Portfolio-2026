@@ -62,126 +62,94 @@ class PerformanceEngine {
     this.level = this._detectQuality();
     this.config = QUALITY_CONFIGS[this.level];
 
-    // FPS tracking for adaptive quality
-    this._fpsHistory = [];
-    this._fpsHistoryMax = 60; // Track last 60 samples
     this._lastFrameTime = 0;
-    this._degraded = false;
-
-    // Reduced motion preference
-    this.prefersReducedMotion =
-      typeof window !== "undefined" &&
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    this._samples = new Float32Array(240);
+    this._sampleCount = 0;
+    this._sum = 0;
+    this._count = 0;
+    this._windowStart = 0;
+    this._fastest = 1000 / 60;
+    this._slowFor = 0;
+    this._stableFor = 0;
+    this._cooldown = 0;
+    this._average = 0;
+    // Quality controls geometry/waves; this separate scalar controls resolution.
+    this.dprLimit = this.config.dpr[1];
   }
 
-  /**
-   * Detect device quality tier based on hardware signals.
-   * Mirrors folio's quality detection logic.
-   */
   _detectQuality() {
-    if (typeof window === "undefined") return QUALITY.MEDIUM;
-
-    const w = window.innerWidth;
-    const memory = navigator.deviceMemory || 4; // GB
-    const cores = navigator.hardwareConcurrency || 4;
-    const isMobile = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
-
-    // Check for WebGL renderer info
-    let gpuTier = "unknown";
-    try {
-      const canvas = document.createElement("canvas");
-      const gl =
-        canvas.getContext("webgl2") || canvas.getContext("webgl");
-      if (gl) {
-        const debugInfo = gl.getExtension("WEBGL_debug_renderer_info");
-        if (debugInfo) {
-          gpuTier = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
-        }
-        // Clean up the context
-        const ext = gl.getExtension("WEBGL_lose_context");
-        if (ext) ext.loseContext();
-      }
-    } catch (_) {
-      // Silent fail
-    }
-
-    // Low-end detection
-    const isLowEnd =
-      isMobile ||
-      w < 768 ||
-      memory <= 2 ||
-      cores <= 2 ||
-      /Mali|Adreno\s[0-4]/i.test(gpuTier);
-
-    if (isLowEnd) return QUALITY.LOW;
-
-    // Medium detection
-    const isMedium =
-      w < 1280 ||
-      memory <= 4 ||
-      cores <= 4 ||
-      /Intel|Adreno\s5/i.test(gpuTier);
-
-    if (isMedium) return QUALITY.MEDIUM;
-
+    if (typeof navigator === 'undefined') return QUALITY.MEDIUM;
+    const memory = navigator.deviceMemory;
+    const cores = navigator.hardwareConcurrency;
+    if ((memory && memory <= 2) || (cores && cores <= 2)) return QUALITY.LOW;
+    if ((memory && memory <= 4) || (cores && cores <= 4) || window.innerWidth < 1280) return QUALITY.MEDIUM;
     return QUALITY.HIGH;
   }
 
-  /**
-   * Record a frame timestamp for FPS tracking.
-   * Call this from the main useFrame loop.
-   */
-  recordFrame(timestamp) {
-    if (this._lastFrameTime > 0) {
-      const delta = timestamp - this._lastFrameTime;
-      const fps = 1000 / delta;
-      this._fpsHistory.push(fps);
+  resetSamples() {
+    this._lastFrameTime = this._sum = this._count = this._windowStart = 0;
+    this._slowFor = this._stableFor = 0;
+    this._fastest = 1000 / 60; this._sampleCount = 0;
+  }
 
-      if (this._fpsHistory.length > this._fpsHistoryMax) {
-        this._fpsHistory.shift();
-      }
-    }
+  recordFrame(timestamp, renderingDpr = this.dprLimit, resolutionCeiling = 2) {
+    const delta = timestamp - this._lastFrameTime;
     this._lastFrameTime = timestamp;
-  }
-
-  /**
-   * Get the average FPS over the tracked history.
-   */
-  getAverageFPS() {
-    if (this._fpsHistory.length === 0) return 60;
-    const sum = this._fpsHistory.reduce((a, b) => a + b, 0);
-    return sum / this._fpsHistory.length;
-  }
-
-  /**
-   * Auto-degrade quality if FPS is consistently low.
-   * Returns true if quality was changed.
-   */
-  checkAndAdaptQuality() {
-    if (this._fpsHistory.length < 30) return false; // Need enough samples
-
-    const avgFps = this.getAverageFPS();
-
-    // If FPS drops below 24 for sustained period, downgrade
-    if (avgFps < 24 && this.level < QUALITY.LOW && !this._degraded) {
-      this.level = Math.min(this.level + 1, QUALITY.LOW);
-      this.config = QUALITY_CONFIGS[this.level];
-      this._degraded = true;
-      this._fpsHistory = []; // Reset tracking
-      console.info(
-        `[PerformanceEngine] Quality degraded to level ${this.level} (avg FPS: ${avgFps.toFixed(1)})`
-      );
+    // Ignore resume/loading stalls; require a full fresh sustained sample window.
+    if (!this._windowStart || delta > 250 || delta <= 0) {
+      this._sum = this._count = this._sampleCount = 0; this._windowStart = timestamp;
+      return false;
+    }
+    if (delta >= 3 && this._sampleCount < this._samples.length) this._samples[this._sampleCount++] = delta;
+    this._sum += delta; this._count++;
+    const elapsed = timestamp - this._windowStart;
+    if (elapsed < 1000) return false;
+    this._average = this._sum / this._count;
+    // A fast percentile rejects isolated timing outliers; sort only once per second.
+    if (this._sampleCount) {
+      const samples = this._samples.subarray(0, this._sampleCount);
+      samples.sort();
+      this._fastest = Math.min(this._fastest, samples[Math.floor(samples.length * 0.1)]);
+    }
+    this._sampleCount = 0;
+    this._sum = this._count = 0; this._windowStart = timestamp;
+    const seconds = elapsed / 1000;
+    // Detect sustained missed refreshes as well as sub-55 Hz rendering.
+    const budget = Math.min(1000 / 55, this._fastest * 1.6);
+    const slow = this._average > budget;
+    const stable = this._average < Math.min(1000 / 57, this._fastest * 1.2);
+    this._slowFor = slow ? this._slowFor + seconds : 0;
+    this._stableFor = stable ? this._stableFor + seconds : 0;
+    this._cooldown = Math.max(0, this._cooldown - seconds);
+    if (this._cooldown > 0) return false;
+    if (this._slowFor >= 4) {
+      if (renderingDpr > 1) this.dprLimit = Math.max(1, renderingDpr - 0.25);
+      else if (this.level < QUALITY.LOW) {
+        this.level++; this.config = QUALITY_CONFIGS[this.level];
+      } else return false;
+      this._cooldown = 5; this._slowFor = this._stableFor = 0;
       return true;
     }
-
+    if (this._stableFor >= 25 && this.level > QUALITY.HIGH) {
+      this.level--; this.config = QUALITY_CONFIGS[this.level];
+      this._cooldown = 10; this._stableFor = this._slowFor = 0;
+      return true;
+    }
+    if (this._stableFor >= 12 && this.dprLimit < Math.min(resolutionCeiling, this.config.dpr[1])) {
+      this.dprLimit = Math.min(resolutionCeiling, this.config.dpr[1], this.dprLimit + 0.25);
+      this._cooldown = 8; this._stableFor = this._slowFor = 0;
+      return true;
+    }
     return false;
   }
+
+  getAverageFPS() { return this._average ? 1000 / this._average : 0; }
 
   /**
    * Get the current quality config values.
    */
   getConfig() {
-    return { ...this.config };
+    return { ...this.config, dpr: [1, Math.min(this.dprLimit, this.config.dpr[1])] };
   }
 }
 

@@ -138,10 +138,15 @@
     /*  PERFORMANCE: Safe scroll hints         */
     /* ═══════════════════════════════════════ */
 
-    /* Smooth scroll fallback for browsers without Lenis */
+    /* Lenis is the single smooth-scroll authority. */
     html {
-      scroll-behavior: smooth;
+      scroll-behavior: auto;
     }
+
+    /* The template sets a 360px content floor. Keep its spacing at 320px. */
+    @media (max-width: 359px) { body { min-width: 0; } }
+
+    .mxd-resume__link span { font: inherit; color: var(--t-bright); }
 
     /* Respect users who prefer reduced motion */
     @media (prefers-reduced-motion: reduce) {
@@ -353,8 +358,8 @@
                 <div class="menu-contact__item">
                   <ul class="menu-contact__list">
                     <li>
-                      <a class="tag tag-m" href="mailto:naveenrio739@gmail.com?subject=Message%20from%20your%20site">
-                        <span class="mxd-scramble">naveenrio739@gmail.com</span>
+                      <a class="tag tag-m" href="mailto:ajithkumarv0739@gmail.com?subject=Message%20from%20your%20site">
+                        <span class="mxd-scramble">ajithkumarv0739@gmail.com</span>
                       </a>
                     </li>
                     <li>
@@ -377,10 +382,10 @@
                   <ul class="menu-contact__list">
                     <li>
                       <a class="tag tag-m" href="https://www.linkedin.com/in/ajith-kumar-b31470283"
-                        target="_blank"><span class="mxd-scramble">LinkedIn</span></a>
+                        target="_blank" rel="noopener noreferrer"><span class="mxd-scramble">LinkedIn</span></a>
                     </li>
                     <li>
-                      <a class="tag tag-m" href="https://github.com/Ajith739" target="_blank"><span
+                      <a class="tag tag-m" href="https://github.com/Ajith739" target="_blank" rel="noopener noreferrer"><span
                           class="mxd-scramble">Github</span></a>
                     </li>
                   </ul>
@@ -529,12 +534,12 @@
                   <ul class="mxd-socials-line column">
                     <li class="loading-item">
                       <a class="mxd-socials-line__link" href="https://www.linkedin.com/in/ajith-kumar-b31470283"
-                        target="_blank">
+                        target="_blank" rel="noopener noreferrer">
                         <span class="mxd-scramble">LinkedIn</span>
                       </a>
                     </li>
                     <li class="loading-item">
-                      <a class="mxd-socials-line__link" href="https://github.com/Ajith739" target="_blank">
+                      <a class="mxd-socials-line__link" href="https://github.com/Ajith739" target="_blank" rel="noopener noreferrer">
                         <span class="mxd-scramble">Github</span>
                       </a>
                     </li>
@@ -1208,6 +1213,33 @@
           <!-- Block - Resume List Start - Experience -->
           <div class="mxd-block">
             <div class="mxd-resume">
+              <!-- resume item - Gracewell -->
+              <div class="mxd-resume__item">
+                <div class="container-fluid px-0 mxd-resume__inner">
+                  <div class="row g-0">
+                    <div class="col-12 col-xl-4 mxd-grid-item">
+                      <div class="mxd-resume__title">
+                        <p>Full Stack Web Developer</p>
+                      </div>
+                    </div>
+                    <div class="col-12 col-xl-3 mxd-grid-item">
+                      <div class="mxd-resume__image">
+                        <img src="img/illustrations/resume03.webp" alt="Resume Image">
+                      </div>
+                    </div>
+                    <div class="col-12 col-xl-3 mxd-grid-item">
+                      <div class="mxd-resume__link">
+                        <p><span>Gracewell Technologies</span> Pvt Ltd</p>
+                      </div>
+                    </div>
+                    <div class="col-12 col-xl-2 mxd-grid-item">
+                      <div class="mxd-resume__date">
+                        <p>08/2026 - Present</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <!-- resume item - Shastika -->
               <div class="mxd-resume__item">
                 <div class="container-fluid px-0 mxd-resume__inner">
@@ -1224,12 +1256,12 @@
                     </div>
                     <div class="col-12 col-xl-3 mxd-grid-item">
                       <div class="mxd-resume__link">
-                        <p><a href="#0" target="_blank">Shastika Software Solution</a> Pvt Ltd</p>
+                        <p><span>Shastika Software Solution</span> Pvt Ltd</p>
                       </div>
                     </div>
                     <div class="col-12 col-xl-2 mxd-grid-item">
                       <div class="mxd-resume__date">
-                        <p>02/2026 - Present</p>
+                        <p>02/2026 - 04/2026</p>
                       </div>
                     </div>
                   </div>
@@ -1251,7 +1283,7 @@
                     </div>
                     <div class="col-12 col-xl-3 mxd-grid-item">
                       <div class="mxd-resume__link">
-                        <p><a href="#0" target="_blank">Rathna Softnet</a> Technologies</p>
+                        <p><span>Rathna Softnet Technologies</span></p>
                       </div>
                     </div>
                     <div class="col-12 col-xl-2 mxd-grid-item">
@@ -1278,7 +1310,7 @@
                     </div>
                     <div class="col-12 col-xl-3 mxd-grid-item">
                       <div class="mxd-resume__link">
-                        <p><a href="#0" target="_blank">Get Innovative</a></p>
+                        <p><span>Get Innovative</span></p>
                       </div>
                     </div>
                     <div class="col-12 col-xl-2 mxd-grid-item">
@@ -1331,7 +1363,7 @@
                     </div>
                     <div class="col-12 col-xl-3 mxd-grid-item">
                       <div class="mxd-resume__link">
-                        <p><a href="#0" target="_blank">Manonmaniam Sundaranar University</a></p>
+                        <p><span>Manonmaniam Sundaranar University</span></p>
                       </div>
                     </div>
                     <div class="col-12 col-xl-2 mxd-grid-item">
@@ -1737,8 +1769,8 @@
             <div class="footer-blocks__data justify-start">
               <p class="footer-data">
                 <a class="anim-uni-slide-down"
-                  href="mailto:naveenrio739@gmail.com?subject=Message%20from%20your%20site">
-                  <span class="mxd-scramble">naveenrio739@gmail.com</span>
+                  href="mailto:ajithkumarv0739@gmail.com?subject=Message%20from%20your%20site">
+                  <span class="mxd-scramble">ajithkumarv0739@gmail.com</span>
                 </a>
               </p>
               <p class="footer-data">
@@ -1785,12 +1817,12 @@
               <ul class="mxd-socials-line anim-uni-fade-in">
                 <li>
                   <a class="mxd-socials-line__link" href="https://www.linkedin.com/in/ajith-kumar-b31470283"
-                    target="_blank">
+                    target="_blank" rel="noopener noreferrer">
                     <span class="mxd-scramble">LinkedIn</span>
                   </a>
                 </li>
                 <li>
-                  <a class="mxd-socials-line__link" href="https://github.com/Ajith739" target="_blank">
+                  <a class="mxd-socials-line__link" href="https://github.com/Ajith739" target="_blank" rel="noopener noreferrer">
                     <span class="mxd-scramble">Github</span>
                   </a>
                 </li>
@@ -1834,6 +1866,7 @@
 
   <!-- Load Scripts Start -->
   <script src="js/libs.min.js"></script>
+  <script src="js/viewport.js"></script>
   <script src="js/app.min.js"></script>
   <!-- Load Scripts End -->
 
@@ -1843,40 +1876,6 @@
       'use strict';
 
       function patchLenis() {
-        // Optimize ScrollTrigger for smoother scroll-linked animations
-        if (typeof ScrollTrigger !== 'undefined' && ScrollTrigger.defaults) {
-          ScrollTrigger.config({
-            limitCallbacks: true,    // Batch callbacks for less overhead
-            ignoreMobileResize: true // Prevents layout thrash on mobile address bar hide
-          });
-
-          // FIX: Recalculate pin positions after 3D canvas + assets finish loading.
-          // The 3D canvas renders into #root which sits inside the hero section.
-          // When it finishes loading (Suspense resolves), it can shift layout slightly.
-          // A delayed refresh ensures all pin start/end measurements are accurate.
-          setTimeout(function () {
-            ScrollTrigger.refresh(true);
-          }, 1500);
-
-          // Another refresh after everything is fully settled
-          setTimeout(function () {
-            ScrollTrigger.refresh(true);
-          }, 4000);
-
-          // FIX: Refresh ScrollTrigger on viewport resize (debounced).
-          // This fixes the "My Approach" and "My Expertise" sections sticking
-          // when testing responsive modes or resizing the browser window.
-          var resizeTimer = null;
-          window.addEventListener('resize', function () {
-            clearTimeout(resizeTimer);
-            resizeTimer = setTimeout(function () {
-              if (typeof ScrollTrigger !== 'undefined') {
-                ScrollTrigger.refresh(true);
-              }
-            }, 300);
-          });
-        }
-
         // Pause videos when they scroll out of view (saves GPU bandwidth)
         var videos = document.querySelectorAll('video[autoplay]');
         if (videos.length > 0 && 'IntersectionObserver' in window) {

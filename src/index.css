@@ -274,17 +274,3 @@
     opacity: 0.8;
   }
 }
-
-/* ═══════════════════════════════════════════════════════════ */
-/*  PERFORMANCE: Additional GPU Compositing Optimizations     */
-/* ═══════════════════════════════════════════════════════════ */
-
-/* Promote the 3D container for GPU layer compositing */
-.home-container {
-  will-change: transform;
-}
-
-/* Canvas repaints frequently — hint to the browser */
-.home-canvas {
-  will-change: contents;
-}

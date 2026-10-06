@@ -1,0 +1,63 @@
+{
+  "rows": [
+    {
+      "width": 1440,
+      "dpr": 2,
+      "loop": "always",
+      "model": 1.5,
+      "geometries": 441,
+      "textures": 18,
+      "programs": 18
+    },
+    {
+      "width": 390,
+      "dpr": 1.5,
+      "loop": "always",
+      "model": 1.2,
+      "geometries": 441,
+      "textures": 18,
+      "programs": 20
+    },
+    {
+      "width": 1440,
+      "dpr": 2,
+      "loop": "always",
+      "model": 1.5,
+      "geometries": 441,
+      "textures": 18,
+      "programs": 20
+    },
+    {
+      "width": 390,
+      "dpr": 1.5,
+      "loop": "always",
+      "model": 1.2,
+      "geometries": 441,
+      "textures": 18,
+      "programs": 20
+    },
+    {
+      "width": 1440,
+      "dpr": 2,
+      "loop": "always",
+      "model": 1.5,
+      "geometries": 441,
+      "textures": 18,
+      "programs": 20
+    }
+  ],
+  "lifecycle": {
+    "before": {
+      "geometries": 444,
+      "textures": 19
+    },
+    "after": {
+      "geometries": 444,
+      "textures": 19
+    },
+    "loop": "always",
+    "hiddenLoop": "demand",
+    "theme": "dark"
+  },
+  "errors": []
+}

@@ -14,9 +14,10 @@ const _cloudTextureCache = new Map();
 // ═══════════════════════════════════════════════════════════
 //  STARS – GPU-driven twinkling (no CPU per-frame loop)
 // ═══════════════════════════════════════════════════════════
-function Stars({ visible, maxStars = 400 }) {
+function Stars({ visible, maxStars = 400, reducedMotion = false }) {
   const starsRef = useRef();
-  const starCount = maxStars;
+  // Stable GPU buffers across quality changes; only the draw range changes.
+  const starCount = 400;
 
   const { positions, sizes, starTypes, offsets } = useMemo(() => {
     const positions = new Float32Array(starCount * 3);
@@ -74,7 +75,7 @@ function Stars({ visible, maxStars = 400 }) {
           void main() {
             vStarType = starType;
             // GPU-driven twinkle: compute pulse entirely on GPU
-            float pulse = sin(uTime * (0.8 + mod(float(gl_VertexID), 7.0) * 0.2) + offset) * 0.5 + 0.5;
+            float pulse = sin(uTime * (0.8 + mod(offset * 7.0, 7.0) * 0.2) + offset) * 0.5 + 0.5;
             float animSize = size * (0.65 + pulse * 0.65);
             vSize = animSize;
             vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
@@ -123,8 +124,10 @@ function Stars({ visible, maxStars = 400 }) {
   // Early-exit when not visible to save CPU
   useFrame(({ clock }) => {
     if (!starsRef.current || !visible) return;
-    material.uniforms.uTime.value = clock.getElapsedTime();
+    material.uniforms.uTime.value = reducedMotion ? 0 : clock.elapsedTime;
   });
+
+  useEffect(() => { starsRef.current?.geometry.setDrawRange(0, Math.min(maxStars, starCount)); }, [maxStars, visible]);
 
   if (!visible) return null;
 
@@ -294,7 +297,7 @@ function Clouds({ isNightMode, maxClouds = 11 }) {
 
   // Create textures and materials once (textures are cached at module level)
   const cloudData = useMemo(() => {
-    return ALL_CLOUD_CONFIGS.slice(0, activeCount).map((c, i) => {
+    return ALL_CLOUD_CONFIGS.map((c, i) => {
       const texture = makeCloudTexture(c.seed);
       const material = new THREE.MeshBasicMaterial({
         map: texture,
@@ -306,7 +309,9 @@ function Clouds({ isNightMode, maxClouds = 11 }) {
       });
       return { ...c, material };
     });
-  }, [activeCount]);
+  }, []);
+
+  useEffect(() => () => cloudData.forEach(c => c.material.dispose()), [cloudData]);
 
   // Update opacity when mode changes (without recreating materials)
   useEffect(() => {
@@ -325,7 +330,7 @@ function Clouds({ isNightMode, maxClouds = 11 }) {
 
   return (
     <>
-      {cloudData.map((c, i) => (
+      {cloudData.slice(0, activeCount).map((c, i) => (
         <mesh
           key={i}
           ref={(el) => (cloudRefs.current[i] = el)}
@@ -395,7 +400,7 @@ function Moon({ visible }) {
 // ═══════════════════════════════════════════════════════════
 //  MAIN SKY COMPONENT
 // ═══════════════════════════════════════════════════════════
-export function Sky({ isNightMode = true, maxStars = 400, maxClouds = 11 }) {
+export function Sky({ isNightMode = true, maxStars = 400, maxClouds = 11, reducedMotion = false }) {
   const sky = useGLTF(skyScene);
   const skyRef = useRef();
 
@@ -441,7 +446,7 @@ export function Sky({ isNightMode = true, maxStars = 400, maxClouds = 11 }) {
     sky.scene.traverse((child) => {
       if (child.isMesh && child.material) {
         child.material = targetMat;
-        child.material.needsUpdate = true;
+
       }
     });
   }, [isNightMode, sky.scene, nightMaterial, dayMaterial]);
@@ -449,9 +454,10 @@ export function Sky({ isNightMode = true, maxStars = 400, maxClouds = 11 }) {
   // Animate cloud drift
   useFrame(({ clock }, delta) => {
     if (!skyRef.current) return;
-    const elapsed = clock.getElapsedTime();
+    if (reducedMotion) return;
+    const elapsed = clock.elapsedTime;
 
-    skyRef.current.rotation.y += 0.006 * delta;
+    skyRef.current.rotation.y += 0.006 * Math.min(delta, 0.1);
     skyRef.current.position.y = Math.sin(elapsed * 0.25) * 0.25;
 
     skyRef.current.rotation.x = Math.sin(elapsed * 0.12) * 0.006;
@@ -465,14 +471,14 @@ export function Sky({ isNightMode = true, maxStars = 400, maxClouds = 11 }) {
 
       {/* GLB sky model with clouds texture */}
       <mesh ref={skyRef} scale={[1.2, 1.2, 1.2]} position={[0, -2, 0]}>
-        <primitive object={sky.scene} />
+        <primitive object={sky.scene} dispose={null} />
       </mesh>
 
       {/* Billboard clouds (always present, opacity changes with night mode) */}
       <Clouds isNightMode={isNightMode} maxClouds={maxClouds} />
 
       {/* Stars – only at night */}
-      <Stars visible={isNightMode} maxStars={maxStars} />
+      <Stars visible={isNightMode} maxStars={maxStars} reducedMotion={reducedMotion} />
 
       {/* Moon – only at night */}
       <Moon visible={isNightMode} />

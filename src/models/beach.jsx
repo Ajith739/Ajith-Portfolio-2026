@@ -6,18 +6,17 @@ Source: https://sketchfab.com/3d-models/pirate-island-e80f37c6429545f0adad3fc2fe
 Title: Pirate Island
 */
 
-import React, { useRef, useEffect, useCallback } from 'react'
+import React, { useRef, useEffect } from 'react'
 import { useGLTF } from '@react-three/drei'
 import { useFrame } from '@react-three/fiber'
 
-export function Beach(props) {
+export function Beach({ reducedMotion = false, ...props }) {
   const { nodes, materials } = useGLTF("/assets/3d/pirate_island.glb")
   const groupRef = useRef()
-  const frameCount = useRef(0)
 
   // ─── Freeze static meshes: disable matrixAutoUpdate on ALL non-animated meshes ───
   // This is adapted from folio's InstancedGroup pattern — only recalculate matrices
-  // for objects that actually move (boats, crabs). Saves ~95% of per-frame matrix math.
+  // for objects that actually move (boats, crabs). Avoids recomputing static local matrices.
   useEffect(() => {
     if (!groupRef.current) return;
 
@@ -86,15 +85,17 @@ export function Beach(props) {
     return mat;
   }, [materials]);
 
+  useEffect(() => () => { flagMaterial.dispose(); treeMaterial.dispose(); }, [flagMaterial, treeMaterial]);
+
   // Animation Refs
   const bigBoatRef = useRef()
   const smallBoatRef = useRef()
   const crabRefs = useRef([])
 
-  // Optimized animation loop — throttle crab updates to every 2nd frame
+  // All motion follows elapsed time at the browser's native frame cadence.
   useFrame((state) => {
+    if (reducedMotion) return;
     const t = state.clock.elapsedTime
-    frameCount.current++
 
     // Float Big Boat (every frame — primary visual element)
     if (bigBoatRef.current) {
@@ -110,8 +111,8 @@ export function Beach(props) {
       smallBoatRef.current.rotation.x = Math.sin(t * 2.2 + 3) * 0.01
     }
 
-    // Move Crabs — throttled to every 2nd frame (they're small, nobody notices)
-    if (frameCount.current % 2 === 0) {
+    // Move crabs at the same speed on every refresh rate.
+    {
       const crabs = crabRefs.current;
       for (let i = 0; i < crabs.length; i++) {
         const crab = crabs[i];
@@ -2936,4 +2937,4 @@ export function Beach(props) {
   )
 }
 
-useGLTF.preload('/pirate_island.glb')
+useGLTF.preload('/assets/3d/pirate_island.glb')

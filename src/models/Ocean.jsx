@@ -199,7 +199,7 @@ const NIGHT_COLORS = {
 /* ═══════════════════════════════════════════ */
 /*               <Ocean /> component           */
 /* ═══════════════════════════════════════════ */
-const Ocean = ({ isNightMode = false, waterLevel = -10, segments: segmentsProp }) => {
+const Ocean = ({ isNightMode = false, waterLevel = -10, segments: segmentsProp, reducedMotion = false }) => {
   const meshRef = useRef();
   const { camera } = useThree();
 
@@ -212,6 +212,9 @@ const Ocean = ({ isNightMode = false, waterLevel = -10, segments: segmentsProp }
     if (w < 1280) return 80;
     return 128;
   }, [segmentsProp]);
+
+  const geometry = useMemo(() => new THREE.PlaneGeometry(400, 300, segments, segments), [segments]);
+  useEffect(() => () => geometry.dispose(), [geometry]);
 
   // Determine wave count based on segments (proxy for quality)
   const waveCount = useMemo(() => {
@@ -273,7 +276,7 @@ const Ocean = ({ isNightMode = false, waterLevel = -10, segments: segmentsProp }
   useFrame((state) => {
     if (!meshRef.current || !meshRef.current.visible) return;
     const mat = meshRef.current.material;
-    mat.uniforms.uTime.value = state.clock.elapsedTime;
+    mat.uniforms.uTime.value = reducedMotion ? 0 : state.clock.elapsedTime;
     mat.uniforms.uCamPos.value.copy(camera.position);
   });
 
@@ -282,11 +285,13 @@ const Ocean = ({ isNightMode = false, waterLevel = -10, segments: segmentsProp }
       ref={meshRef}
       rotation={[-Math.PI / 2, 0, 0]}
       position={[0, waterLevel, -2]}
+      geometry={geometry}
       material={material}
+      dispose={null}
       frustumCulled={false}
       renderOrder={999}
     >
-      <planeGeometry args={[400, 300, segments, segments]} />
+
     </mesh>
   );
 };

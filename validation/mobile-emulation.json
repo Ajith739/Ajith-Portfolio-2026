@@ -1,0 +1,30 @@
+{
+  "touch": {
+    "scroll": 499,
+    "cursor": "none",
+    "width": 390,
+    "height": 844,
+    "triggers": 100
+  },
+  "orientation": [
+    {
+      "width": 844,
+      "height": 390,
+      "canvas": [
+        844,
+        877
+      ],
+      "invalid": 0
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "canvas": [
+        390,
+        848
+      ],
+      "invalid": 0
+    }
+  ],
+  "errors": []
+}

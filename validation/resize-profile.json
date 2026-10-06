@@ -1,0 +1,140 @@
+{
+  "before": {
+    "count": {
+      "runners": 29,
+      "engines": 29,
+      "pendingRaf": 62,
+      "invalidEnds": 1,
+      "triggers": 101
+    },
+    "timing": {
+      "samples": 121,
+      "mean": 16.665289256198346,
+      "p50": 16.69999999999891,
+      "p95": 16.700000000000728
+    },
+    "aggregate": {
+      "RunTask": {
+        "count": 5088,
+        "totalMs": 920.4739999999823,
+        "maxMs": 8.132
+      },
+      "FireAnimationFrame": {
+        "count": 7816,
+        "totalMs": 721.1790000000015,
+        "maxMs": 0.807
+      },
+      "FunctionCall": {
+        "count": 7833,
+        "totalMs": 704.4949999999924,
+        "maxMs": 0.562
+      },
+      "UpdateLayoutTree": {
+        "count": 244,
+        "totalMs": 7.370999999999991,
+        "maxMs": 0.288
+      },
+      "Layout": {
+        "count": 123,
+        "totalMs": 8.735999999999997,
+        "maxMs": 0.155
+      }
+    },
+    "metricDifference": {
+      "LayoutDuration": 0.010385,
+      "RecalcStyleDuration": 0.008801,
+      "ScriptDuration": 0.807231,
+      "TaskDuration": 0.9765250000000001,
+      "JSHeapUsedSize": 5609664
+    },
+    "consoleMessages": [
+      "Failed to load resource: net::ERR_FAILED",
+      "Failed to load resource: net::ERR_FAILED",
+      "404 http://127.0.0.1:5174/img/blog/preview/grid-x3/pr-01.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:5174/img/blog/preview/grid-x3/pr-02.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:5174/img/blog/preview/grid-x3/pr-03.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:5174/img/dividers/1920x1200_dv10.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:5174/img/dividers/1920x1200_dv05.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:5174/img/dividers/1920x1200_dv04.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "GSAP target [object NodeList] not found. https://gsap.com",
+      "404 http://127.0.0.1:5174/img/blog/preview/grid-x3/pr-01.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:5174/img/blog/preview/grid-x3/pr-02.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:5174/img/blog/preview/grid-x3/pr-03.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  },
+  "after": {
+    "count": {
+      "runners": 1,
+      "engines": 1,
+      "pendingRaf": 3,
+      "invalidEnds": 0,
+      "triggers": 104
+    },
+    "timing": {
+      "samples": 120,
+      "mean": 16.666666666666668,
+      "p50": 16.69999999999891,
+      "p95": 16.799999999999272
+    },
+    "aggregate": {
+      "RunTask": {
+        "count": 3869,
+        "totalMs": 466.02199999998373,
+        "maxMs": 12.004
+      },
+      "FireAnimationFrame": {
+        "count": 613,
+        "totalMs": 65.40600000000009,
+        "maxMs": 1.042
+      },
+      "FunctionCall": {
+        "count": 621,
+        "totalMs": 58.896000000000036,
+        "maxMs": 0.995
+      },
+      "UpdateLayoutTree": {
+        "count": 242,
+        "totalMs": 24.114999999999984,
+        "maxMs": 0.532
+      }
+    },
+    "metricDifference": {
+      "LayoutDuration": 0,
+      "RecalcStyleDuration": 0.024892,
+      "ScriptDuration": 0.042547,
+      "TaskDuration": 0.285607,
+      "JSHeapUsedSize": 1845856
+    },
+    "consoleMessages": [
+      "Failed to load resource: net::ERR_FAILED",
+      "Failed to load resource: net::ERR_FAILED",
+      "404 http://127.0.0.1:4173/img/blog/preview/grid-x3/pr-01.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:4173/img/blog/preview/grid-x3/pr-02.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:4173/img/blog/preview/grid-x3/pr-03.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:4173/img/dividers/1920x1200_dv10.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:4173/img/dividers/1920x1200_dv05.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:4173/img/dividers/1920x1200_dv04.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:4173/img/blog/preview/grid-x3/pr-01.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:4173/img/blog/preview/grid-x3/pr-02.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "404 http://127.0.0.1:4173/img/blog/preview/grid-x3/pr-03.webp",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)"
+    ]
+  }
+}

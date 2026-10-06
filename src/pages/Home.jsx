@@ -1,8 +1,8 @@
-import { Suspense, useState, useEffect, useCallback, useRef, useMemo } from "react";
+import { Suspense, useState, useEffect, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import * as THREE from "three";
 import { useThree, useFrame } from "@react-three/fiber";
-import { PerformanceMonitor } from "@react-three/drei";
+import { viewport, modelConfig } from "../engine/viewport";
 import Loader from "../components/Loader";
 import { Sky } from "../models/Sky";
 import Ocean from "../models/Ocean";
@@ -60,21 +60,24 @@ function SceneBackground({ isNightMode }) {
 }
 
 // ─── FPS Recorder — minimal component to feed the performance engine ───
-function FPSRecorder({ recordFrame }) {
+function FPSRecorder({ recordFrame, resolutionCeiling }) {
   useFrame((state) => {
-    recordFrame(state.clock.elapsedTime * 1000);
+    recordFrame(state.clock.elapsedTime * 1000, state.gl.getPixelRatio(), resolutionCeiling);
   });
+  return null;
+}
+
+function SceneLifecycle({ responsive, isNightMode }) {
+  const { invalidate } = useThree();
+  useEffect(() => { invalidate(); }, [invalidate, responsive, isNightMode]);
+  useEffect(() => { viewport.requestRefresh(); }, []);
   return null;
 }
 
 const Home = () => {
   const [isNightMode, setIsNightMode] = useState(() => getCurrentTheme());
   const [isVisible, setIsVisible] = useState(true);
-  // Delay 3D rendering start until GSAP ScrollTrigger has finished
-  // initializing and measuring pin positions. Without this delay,
-  // the heavy 3D scene competes for GPU time during page load,
-  // causing "My Approach" and "My Expertise" to miscalculate pins.
-  const [isReady, setIsReady] = useState(false);
+  const [pageVisible, setPageVisible] = useState(!document.hidden);
   const containerRef = useRef(null);
 
   // Adaptive performance from engine
@@ -87,48 +90,17 @@ const Home = () => {
     recordFrame,
   } = useAdaptivePerformance();
 
-  // Adaptive DPR state — drei PerformanceMonitor can further adjust this
-  const [adaptiveDpr, setAdaptiveDpr] = useState(dpr[1]);
 
-  const [beachConfig, setBeachConfig] = useState({
-    scale: [1.5, 1.5, 1.5],
-    position: [0, -10, -80],
-    rotation: [0, Math.PI * 0.85, 0],
-  });
-
-  // Debounced resize handler — prevents layout thrashing
-  const resizeTimeout = useRef(null);
-  const adjustModelsForScreenSize = useCallback(() => {
-    clearTimeout(resizeTimeout.current);
-    resizeTimeout.current = setTimeout(() => {
-      let bScale, bPosition, bRotation;
-
-      if (window.innerWidth < 768) {
-        bScale = [1.2, 1.2, 1.2];
-        bPosition = [0, -10, -65];
-        bRotation = [0, Math.PI * 0.85, 0];
-      } else if (window.innerWidth < 1280) {
-        bScale = [1.4, 1.4, 1.4];
-        bPosition = [0, -10, -75];
-        bRotation = [0, Math.PI * 0.85, 0];
-      } else {
-        bScale = [1.5, 1.5, 1.5];
-        bPosition = [0, -10, -80];
-        bRotation = [0, Math.PI * 0.85, 0];
-      }
-
-      setBeachConfig({ scale: bScale, position: bPosition, rotation: bRotation });
-    }, 150);
-  }, []);
-
+  const [responsive, setResponsive] = useState(viewport.getSnapshot);
+  const beachConfig = modelConfig(responsive.breakpoint);
+  const resolutionCeiling = Math.min(responsive.dpr, responsive.breakpoint === 'mobile' ? 1.5 : 2);
+  const adaptiveDpr = Math.min(resolutionCeiling, dpr[1]);
+  useEffect(() => viewport.subscribe(setResponsive), []);
   useEffect(() => {
-    adjustModelsForScreenSize();
-    window.addEventListener("resize", adjustModelsForScreenSize);
-    return () => {
-      window.removeEventListener("resize", adjustModelsForScreenSize);
-      clearTimeout(resizeTimeout.current);
-    };
-  }, [adjustModelsForScreenSize]);
+    const update = () => setPageVisible(!document.hidden);
+    document.addEventListener('visibilitychange', update);
+    return () => document.removeEventListener('visibilitychange', update);
+  }, []);
 
   // ─── Intersection Observer: pause rendering when hero is scrolled out ───
   // Uses multiple thresholds so the callback fires at meaningful visibility points.
@@ -146,32 +118,6 @@ const Home = () => {
 
     observer.observe(containerRef.current);
     return () => observer.disconnect();
-  }, []);
-
-  // ─── Delayed startup: let GSAP ScrollTrigger initialize first ───
-  // The template's app.min.js sets up ScrollTrigger pins during/after
-  // the loader animation (~1.5s). If the 3D canvas is rendering during
-  // this time, it steals GPU time and causes pin miscalculations.
-  // Also pause briefly on resize so ScrollTrigger.refresh() can work.
-  useEffect(() => {
-    const startupTimer = setTimeout(() => {
-      setIsReady(true);
-    }, 2000);
-
-    // Pause canvas briefly during resize so ScrollTrigger can refresh
-    const handleResize = () => {
-      setIsReady(false);
-      clearTimeout(resizeTimeout.current);
-      resizeTimeout.current = setTimeout(() => {
-        setIsReady(true);
-      }, 400);
-    };
-
-    window.addEventListener("resize", handleResize);
-    return () => {
-      clearTimeout(startupTimer);
-      window.removeEventListener("resize", handleResize);
-    };
   }, []);
 
   // ─── Theme sync ───
@@ -193,17 +139,6 @@ const Home = () => {
       attributeFilter: ["color-scheme"],
     });
 
-    // 2. Direct click listener on the toggle button
-    //    The template's mxdColorSwitcher sets localStorage then setAttribute
-    //    both synchronously in the click handler, so by the time our
-    //    requestAnimationFrame fires, the attribute is already updated
-    const btn = document.getElementById("color-switcher");
-    const onBtnClick = () => {
-      requestAnimationFrame(syncTheme);
-      setTimeout(syncTheme, 50);
-    };
-    if (btn) btn.addEventListener("click", onBtnClick);
-
     // 3. Cross-tab sync
     const onStorage = (e) => {
       if (e.key === "template.theme") syncTheme();
@@ -214,26 +149,13 @@ const Home = () => {
     const mq = window.matchMedia("(prefers-color-scheme: dark)");
     mq.addEventListener("change", syncTheme);
 
-    // 5. The template's mxdColorSwitcher() runs on DOMContentLoaded.
-    //    Our React module script may execute before DOMContentLoaded fires,
-    //    so the color-scheme attribute may not be set yet.
-    //    Re-sync after DOMContentLoaded and a bit after.
-    if (document.readyState === "loading") {
-      document.addEventListener("DOMContentLoaded", () => {
-        setTimeout(syncTheme, 50);
-      });
-    } else {
-      // DOMContentLoaded already fired, but template might not have
-      // finished its initialization yet
-      setTimeout(syncTheme, 100);
-      setTimeout(syncTheme, 500);
-    }
-
+    const onReady = () => syncTheme();
+    document.addEventListener('DOMContentLoaded', onReady, { once: true });
     return () => {
       observer.disconnect();
       window.removeEventListener("storage", onStorage);
       mq.removeEventListener("change", syncTheme);
-      if (btn) btn.removeEventListener("click", onBtnClick);
+      document.removeEventListener("DOMContentLoaded", onReady);
     };
   }, []);
 
@@ -253,9 +175,10 @@ const Home = () => {
     >
       <Canvas
         className="home-canvas"
+        resize={{ scroll: false, debounce: 0 }}
         camera={{ near: 0.1, far: 1000, position: [0, 2, 25], fov: 60 }}
         dpr={adaptiveDpr}
-        frameloop={isReady && isVisible ? "always" : "never"}
+        frameloop={isVisible && pageVisible && !prefersReducedMotion ? "always" : "demand"}
         gl={{
           powerPreference: "high-performance",
           antialias: false,
@@ -272,22 +195,10 @@ const Home = () => {
           pointerEvents: "none",
         }}
       >
-        {/* Auto-regress DPR when FPS drops below 30 */}
-        <PerformanceMonitor
-          ms={250}
-          iterations={4}
-          threshold={0.65}
-          onDecline={() =>
-            setAdaptiveDpr((prev) => Math.max(prev - 0.25, dpr[0]))
-          }
-          onIncline={() =>
-            setAdaptiveDpr((prev) => Math.min(prev + 0.25, dpr[1]))
-          }
-        />
-
+        <SceneLifecycle responsive={responsive} isNightMode={isNightMode} />
         <Suspense fallback={<Loader />}>
           {/* FPS tracking for the adaptive performance engine */}
-          <FPSRecorder recordFrame={recordFrame} />
+          <FPSRecorder recordFrame={recordFrame} resolutionCeiling={resolutionCeiling} />
 
           <SceneBackground isNightMode={isNightMode} />
 
@@ -306,8 +217,10 @@ const Home = () => {
             isNightMode={isNightMode}
             maxStars={starCount}
             maxClouds={cloudCount}
+            reducedMotion={prefersReducedMotion}
           />
           <Beach
+            reducedMotion={prefersReducedMotion}
             scale={beachConfig.scale}
             position={beachConfig.position}
             rotation={beachConfig.rotation}
@@ -315,6 +228,7 @@ const Home = () => {
           <Ocean
             isNightMode={isNightMode}
             segments={oceanSegments}
+            reducedMotion={prefersReducedMotion}
           />
         </Suspense>
       </Canvas>
